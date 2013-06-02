@@ -61,6 +61,7 @@ public class PageListFragment extends ListFragment {
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int arg2, long arg3) {
                 arg1.findViewById(R.id.Desc).setVisibility(View.VISIBLE);
+                return true;
             }
         });
     }
