@@ -49,7 +49,7 @@ public class FeedParse {
                 if (DummyContent.ITEMS.contains(new DummyContent.DummyItem("2", entry.title, entry.desc, entry.link, entry.author))) {
                     return entries;
                 } else {
-                    entries.add(entry);
+                    entries.add(0, entry);
                 }
 
             } else {
@@ -85,6 +85,7 @@ public class FeedParse {
             } else {
                 skip(parser);
             }
+            Log.i("Parser", "entry read");
 
         }
         Announcement entry = new Announcement(link, title, summary, author);

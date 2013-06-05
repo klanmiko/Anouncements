@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.sst.anouncements.dummy.DummyContent;
 import com.sst.anouncements.dummy.DummyContent.DummyItem;
@@ -49,20 +51,40 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
         DummyItem i = DummyContent.ITEM.get(position);
 
         if (i != null) {
-            textHold hold = new textHold();
+            final textHold hold = new textHold();
             hold.desc = (TextView) v.findViewById(R.id.Desc);
             hold.name = (TextView) v.findViewById(R.id.Post);
+            hold.author = (TextView) v.findViewById(R.id.author);
+            hold.button = (ToggleButton) v.findViewById(R.id.toggleButton);
+
             if (hold.name != null) {
                 hold.name.setText(i.content);
             }
             if (hold.desc != null) {
-                if (i.description.length() > 50)
-                    hold.desc.setText(i.description.substring(0, 50) + "...");
-                else
-                    hold.desc.setText(i.description);
+                hold.desc.setText(i.description);
+                hold.desc.setVisibility(View.GONE);
+            }
+            if (hold.author != null) {
+                hold.author.setText(i.author);
             }
             assert hold.desc != null;
-            hold.desc.setVisibility(View.GONE);
+            if (hold.button != null) {
+                hold.button.setChecked(false);
+                hold.button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        ToggleButton mbutton = (ToggleButton) compoundButton;
+                        boolean on = mbutton.isChecked();
+                        if (on) {
+                            hold.desc.setVisibility(View.VISIBLE);
+                        } else {
+                            hold.desc.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
         }
         return v;
     }
@@ -74,6 +96,8 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
     static class textHold {
         TextView desc;
         TextView name;
+        TextView author;
+        ToggleButton button;
     }
 
 }

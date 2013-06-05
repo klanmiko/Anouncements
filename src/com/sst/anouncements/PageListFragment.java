@@ -55,15 +55,7 @@ public class PageListFragment extends ListFragment {
         adapter = new adapt(getActivity(),
                 com.sst.anouncements.R.layout.item_row, DummyContent.ITEM);
         setListAdapter(adapter);
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int arg2, long arg3) {
-                arg1.findViewById(R.id.Desc).setVisibility(View.VISIBLE);
-                return true;
-            }
-        });
     }
 
     @Override
