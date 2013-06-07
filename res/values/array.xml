@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="action_list">
+        <item>All</item>
+        <item>General</item>
+        <item>Info Hub</item>
+
+    </string-array>
+</resources>

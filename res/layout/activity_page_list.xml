@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_height="fill_parent"
+              android:layout_width="fill_parent"
+              android:orientation="horizontal"
+              android:id="@+id/page_list_container"
+              style="@style/ListViewTheme">
+
+
+    <fragment
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/page_list"
+            android:name="com.sst.anouncements.PageListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            tools:context=".PageListActivity"
+            android:theme="@style/Theme.Apptheme"
+            tools:layout="@layout/list"/>
+</LinearLayout>
