@@ -134,7 +134,8 @@ public class UpdateService extends Service {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.designcluster)
                         .setContentTitle("New Announcements")
-                        .setContentText("Click to view").setNumber(no);
+                        .setContentText("Click to view").setNumber(no)
+                        .setAutoCancel(true);
         ;
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, PageListActivity.class);
