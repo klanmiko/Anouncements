@@ -130,12 +130,15 @@ public class UpdateService extends Service {
     }
 
     public void Notificate(int no) {
+        long[] pattern = {200, 200, 500, 300, 1000};
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.designcluster)
                         .setContentTitle("New Announcements")
                         .setContentText("Click to view").setNumber(no)
-                        .setAutoCancel(true);
+                        .setAutoCancel(true)
+                        .setVibrate(pattern);
+
         ;
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, PageListActivity.class);
