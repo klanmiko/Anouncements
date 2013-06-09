@@ -3,7 +3,9 @@ package com.sst.anouncements;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -43,7 +45,11 @@ public class GetXml extends AsyncTask<String, Void, List<Announcement>> {
     @Override
     protected List<Announcement> doInBackground(String... params) {
         // TODO Auto-generated method stub
-        try {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+        String syncConnPref = sharedPref.getString("pref_key_refresh", "0");
+        Integer no = new Integer(syncConnPref);
+        if (no != 0) {
+            try {
             return loadXml(params[0]);
         } catch (XmlPullParserException e) {
             // TODO Auto-generated catch block
@@ -53,6 +59,7 @@ public class GetXml extends AsyncTask<String, Void, List<Announcement>> {
             // TODO Auto-generated catch block
             e.printStackTrace();
 
+        }
         }
         return null;
     }

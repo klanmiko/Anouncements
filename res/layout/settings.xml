@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+    <PreferenceCategory
+            android:title="Data Usage">
+
+        <ListPreference
+                android:title="Set Refresh Rate"
+                android:key="pref_key_refresh"
+                android:entries="@array/syncfreq"
+                android:entryValues="@array/syncfreqvalue"
+                android:defaultValue="Manually">
+        </ListPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

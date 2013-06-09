@@ -245,6 +245,10 @@ public class PageListActivity extends FragmentActivity implements
             case R.id.action_refresh:
                 this.refreshPage();
                 return true;
+            case R.id.action_settings:
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.page_list_container, new SettingsFragment())
+                        .commit();
         }
         return false;
 
