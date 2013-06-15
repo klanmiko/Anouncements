@@ -61,6 +61,11 @@
                 android:name="com.sst.anouncements.UpdateService">
 
         </service>
+        <activity
+                android:name="com.sst.anouncements.SettingsFragment"
+                android:label="Settings"
+                android:theme="@style/Theme.Apptheme">
+        </activity>
 
     </application>
 

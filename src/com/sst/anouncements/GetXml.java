@@ -45,11 +45,9 @@ public class GetXml extends AsyncTask<String, Void, List<Announcement>> {
     @Override
     protected List<Announcement> doInBackground(String... params) {
         // TODO Auto-generated method stub
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
-        String syncConnPref = sharedPref.getString("pref_key_refresh", "0");
-        Integer no = new Integer(syncConnPref);
-        if (no != 0) {
-            try {
+
+
+        try {
             return loadXml(params[0]);
         } catch (XmlPullParserException e) {
             // TODO Auto-generated catch block
@@ -60,7 +58,7 @@ public class GetXml extends AsyncTask<String, Void, List<Announcement>> {
             e.printStackTrace();
 
         }
-        }
+
         return null;
     }
 
@@ -104,7 +102,11 @@ public class GetXml extends AsyncTask<String, Void, List<Announcement>> {
                     announ.title, announ.desc, announ.link, announ.author));
             counter++;
         }
-
+        try {
+            DummyContent.dump(activity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent("com.sst.announcements.UPDATE");
         intent.putExtra("update", "post");
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);

@@ -95,7 +95,7 @@ public class DummyContent {
 
     }
 
-    public static boolean dump(Activity activity) throws IOException {
+    public static boolean dump(Context activity) throws IOException {
         File out;
         out = new File(activity.getCacheDir(), "pages");
         FileOutputStream f;

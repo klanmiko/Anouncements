@@ -5,14 +5,16 @@
                   android:layout_height="match_parent">
 
     <PreferenceCategory
-            android:title="Data Usage">
+            android:title="Data Usage"
+            android:padding="6dp">
 
         <ListPreference
+                android:id="@+id/listpref"
                 android:title="Set Refresh Rate"
                 android:key="pref_key_refresh"
                 android:entries="@array/syncfreq"
                 android:entryValues="@array/syncfreqvalue"
-                android:defaultValue="Manually">
+                android:defaultValue="0">
         </ListPreference>
     </PreferenceCategory>
 

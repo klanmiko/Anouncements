@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -142,7 +143,7 @@ public class PageListActivity extends FragmentActivity implements
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
+        PreferenceManager.setDefaultValues(this, R.layout.settings, false);
 
         this.setContentView(R.layout.activity_page_list);
         Intent tent = new Intent("com.sst.anouncements.STARTUPDATE");
@@ -246,9 +247,8 @@ public class PageListActivity extends FragmentActivity implements
                 this.refreshPage();
                 return true;
             case R.id.action_settings:
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.page_list_container, new SettingsFragment())
-                        .commit();
+                Intent intent = new Intent(this, SettingsFragment.class);
+                this.startActivity(intent);
         }
         return false;
 

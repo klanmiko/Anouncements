@@ -100,6 +100,11 @@ public class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
                     announ.title, announ.desc, announ.link, announ.author));
             counter++;
         }
+        try {
+            DummyContent.dump(activity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Intent intent2 = new Intent("com.sst.announcements.UPDATE");
         intent2.putExtra("update", "post");
         activity.sendBroadcast(intent2);

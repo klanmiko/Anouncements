@@ -33,7 +33,13 @@ public class BootReceiver extends BroadcastReceiver {
             cal.add(Calendar.MINUTE, 3);
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String syncConnPref = sharedPref.getString("pref_key_refresh", "0");
-            Integer no = new Integer(syncConnPref);
+            Integer no;
+            if (syncConnPref.equalsIgnoreCase("Manually")) {
+                no = 0;
+
+            } else {
+                no = new Integer(syncConnPref);
+            }
             //
             // Fetch every 30 seconds
             // InexactRepeating allows Android to optimize the energy consumption
