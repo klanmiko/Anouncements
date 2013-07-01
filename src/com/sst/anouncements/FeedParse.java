@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedParse {
+class FeedParse {
     public List<Announcement> parse(InputStream in)
             throws XmlPullParserException, IOException {
         try {
@@ -59,7 +59,7 @@ public class FeedParse {
         return entries;
     }
 
-    boolean stop = false;
+    private final boolean stop = false;
 
     private Announcement readEntry(XmlPullParser parser)
             throws XmlPullParserException, IOException {
@@ -88,8 +88,7 @@ public class FeedParse {
             Log.i("Parser", "entry read");
 
         }
-        Announcement entry = new Announcement(link, title, summary, author);
-        return entry;
+        return new Announcement(link, title, summary, author);
     }
 
     private String readLink(XmlPullParser parser)

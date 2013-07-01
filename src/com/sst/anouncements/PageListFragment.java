@@ -1,14 +1,11 @@
 package com.sst.anouncements;
 
 import android.app.Activity;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,10 +18,10 @@ public class PageListFragment extends ListFragment {
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    public static final String category = "Category";
+    // --Commented out by Inspection (6/15/13 9:03 PM):public static final String category = "Category";
     public String cat = "all";
-    public adapt adapter = null;
-    public DataSetObserver observe;
+    private adapt adapter = null;
+    // --Commented out by Inspection (6/15/13 9:03 PM):public DataSetObserver observe;
 
     public interface Callbacks {
 
@@ -33,7 +30,7 @@ public class PageListFragment extends ListFragment {
         public void fragment(PageListFragment frag);
     }
 
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static final Callbacks sDummyCallbacks = new Callbacks() {
         @Override
         public void onItemSelected(String id, int position) {
         }
@@ -53,7 +50,7 @@ public class PageListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         this.setCategory("All");
         adapter = new adapt(getActivity(),
-                com.sst.anouncements.R.layout.item_row, DummyContent.ITEM);
+                com.sst.anouncements.R.layout.item_row);
         setListAdapter(adapter);
 
     }
@@ -114,7 +111,7 @@ public class PageListFragment extends ListFragment {
                         : ListView.CHOICE_MODE_NONE);
     }
 
-    public void setActivatedPosition(int position) {
+    void setActivatedPosition(int position) {
         if (position == ListView.INVALID_POSITION) {
             getListView().setItemChecked(mActivatedPosition, false);
         } else {

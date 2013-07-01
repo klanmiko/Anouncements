@@ -27,12 +27,12 @@ import java.util.List;
  */
 public class UpdateService extends Service {
 
-    boolean bound = false;
-    IBinder bind = new ActiveBind();
-    PowerManager.WakeLock wakeLock;
+    private boolean bound = false;
+    private final IBinder bind = new ActiveBind();
+    private PowerManager.WakeLock wakeLock;
     FeedParse feedParse = new FeedParse();
 
-    private BroadcastReceiver updatereceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -125,11 +125,11 @@ public class UpdateService extends Service {
         }
     }
 
-    interface update {
-        public void update();
+    interface Update {
+        // --Commented out by Inspection (6/15/13 9:03 PM):public void update();
     }
 
-    public void Notificate(int no) {
+    void Notificate(int no) {
         long[] pattern = {200, 200, 500, 300, 1000};
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)

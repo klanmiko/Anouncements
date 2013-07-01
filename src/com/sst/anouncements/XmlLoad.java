@@ -20,10 +20,10 @@ import java.util.List;
 /**
  * Created by eternitysst on 6/2/13.
  */
-public class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
-    Context activity;
-    boolean cached = false;
-    int param;
+class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
+    private final Context activity;
+    // --Commented out by Inspection (6/15/13 9:03 PM):boolean cached = false;
+    // --Commented out by Inspection (6/15/13 9:03 PM):int param;
 
     public XmlLoad(Context context) {
         this.activity = context;
@@ -44,18 +44,18 @@ public class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
         Integer no = new Integer(syncConnPref);
         if (no != 0) {
             try {
-            return loadXml(params[0]);
-        } catch (XmlPullParserException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                return loadXml(params[0]);
+            } catch (XmlPullParserException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
 
+            }
+            return null;
         }
-        return null;
-    }
         return null;
     }
 
@@ -77,7 +77,7 @@ public class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
 
     }
 
-    public static InputStream downloadUrl(String url) throws IOException {
+    private static InputStream downloadUrl(String url) throws IOException {
         // TODO Auto-generated method stub
         URL uRL = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) uRL.openConnection();

@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
-    Context context;
-    int layoutResourceId;
-    List<DummyItem> objects = new ArrayList<DummyItem>();
+    private final Context context;
+    private final int layoutResourceId;
+    private List<DummyItem> objects = new ArrayList<DummyItem>();
 
-    public adapt(Context context, int resource, List<DummyItem> iTEMS) {
+    public adapt(Context context, int resource) {
         super(context, resource, DummyContent.ITEM);
         this.layoutResourceId = resource;
         this.context = context;
@@ -52,6 +52,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
 
         if (i != null) {
             final textHold hold = new textHold();
+            assert v != null;
             hold.desc = (TextView) v.findViewById(R.id.Desc);
             hold.name = (TextView) v.findViewById(R.id.Post);
             hold.author = (TextView) v.findViewById(R.id.author);

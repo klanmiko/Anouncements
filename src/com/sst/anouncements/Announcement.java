@@ -1,10 +1,10 @@
 package com.sst.anouncements;
 
-public class Announcement {
-    public String link;
-    public String title;
-    public String desc;
-    public String author;
+class Announcement {
+    public final String link;
+    public final String title;
+    public final String desc;
+    public final String author;
 
     public Announcement(String link, String title, String desc, String author) {
         this.link = link;

@@ -13,11 +13,11 @@ public class DummyContent {
 
     public static class DummyItem implements Serializable {
 
-        public String id;
-        public String content;
-        public String description;
-        public String link;
-        public String author;
+        public final String id;
+        public final String content;
+        public final String description;
+        public final String link;
+        public final String author;
 
         public DummyItem(String id, String content, String description,
                          String link, String author) {
@@ -95,7 +95,7 @@ public class DummyContent {
 
     }
 
-    public static boolean dump(Context activity) throws IOException {
+    public static void dump(Context activity) throws IOException {
         File out;
         out = new File(activity.getCacheDir(), "pages");
         FileOutputStream f;
@@ -105,10 +105,9 @@ public class DummyContent {
         o.writeObject(ITEM_MAP);
         o.writeObject(ITEMS);
         o.close();
-        return true;
     }
 
-    public static boolean load(Context context) throws IOException, ClassNotFoundException {
+    public static void load(Context context) throws IOException, ClassNotFoundException {
 
         File out = new File(context.getCacheDir(), "pages");
         FileInputStream f = new FileInputStream(out);
@@ -117,6 +116,5 @@ public class DummyContent {
         ITEMS = (List<DummyItem>) o.readObject();
         o.close();
         DummyContent.setContent("All");
-        return true;
     }
 }

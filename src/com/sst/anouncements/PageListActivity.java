@@ -1,6 +1,7 @@
 package com.sst.anouncements;
 
 import android.app.ActionBar;
+import android.app.Service;
 import android.content.*;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
@@ -25,16 +26,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class PageListActivity extends FragmentActivity implements
-        PageListFragment.Callbacks, UpdateService.update {
+        PageListFragment.Callbacks, UpdateService.Update {
 
     private boolean mTwoPane;
     private boolean wifiConnected = false;
     private boolean mobileConnected = false;
-    boolean first = true;
-    boolean load = true;
-    public PageListFragment fragment;
-    public UpdateService service;
-    ServiceConnection updateservice = new ServiceConnection() {
+    private boolean first = true;
+    private boolean load = true;
+    private PageListFragment fragment;
+    private UpdateService service;
+    // --Commented out by Inspection (6/15/13 9:03 PM):private UpdateService service;
+    private final ServiceConnection updateservice = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             UpdateService.ActiveBind bind = (UpdateService.ActiveBind) iBinder;
@@ -48,14 +50,14 @@ public class PageListActivity extends FragmentActivity implements
     };
 
 
-    private BroadcastReceiver updatereceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getStringExtra("update") == "pre")
+            if (intent.getStringExtra("update").equals("pre"))
 
             {
                 preupdate();
-            } else if (intent.getStringExtra("update") == "post") {
+            } else if (intent.getStringExtra("update").equals("post")) {
 
                 update();
             }
@@ -73,21 +75,21 @@ public class PageListActivity extends FragmentActivity implements
     }
 
 
-    public void refreshPage() {
+    void refreshPage() {
         GetXml xml = new GetXml(this);
 
         if (wifiConnected || mobileConnected) {
             xml
                     .execute("http://sst-students2013.blogspot.com/feeds/posts/default");
         } else {
-            Toast.makeText(this, "Need Internet", 5);
+            Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT);
 
         }
 
 
     }
 
-    public void loadPage() {
+    void loadPage() {
 
         try {
             fragment.showLoad();
@@ -136,7 +138,7 @@ public class PageListActivity extends FragmentActivity implements
         try {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                if (bundle.getString("update") == "no") {
+                if (bundle.getString("update").equals("no")) {
                     this.load = false;
                 }
             }
@@ -153,14 +155,16 @@ public class PageListActivity extends FragmentActivity implements
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo mobileInfor = connMgr
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        assert networkInfo != null;
         wifiConnected = networkInfo.isConnected();
+        assert mobileInfor != null;
         mobileConnected = mobileInfor.isConnected();
         try {
             File httpCacheDir = new File(this.getCacheDir(), "http");
             long httpCacheSize = 10 * 1024 * 1024; // 10 MiB
             HttpResponseCache.install(httpCacheDir, httpCacheSize);
         } catch (IOException e) {
-
+            e.printStackTrace();
 
         }
 
@@ -171,7 +175,7 @@ public class PageListActivity extends FragmentActivity implements
                 android.R.layout.simple_spinner_dropdown_item);
         ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
             // Get the same strings provided for the drop-down's ArrayAdapter
-            String[] strings = getResources().getStringArray(
+            final String[] strings = getResources().getStringArray(
                     R.array.action_list);
 
             @Override
@@ -181,18 +185,12 @@ public class PageListActivity extends FragmentActivity implements
                 if (strings[position] != null && fragment != null) {
                     fragment.setCategory(strings[position]);
 
-                } else {
-                    if (fragment == null) {
-
-                    }
-                    if (strings[position] == null) {
-
-                    }
                 }
                 return true;
             }
         };
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
 
@@ -273,7 +271,7 @@ public class PageListActivity extends FragmentActivity implements
         fragment.setCategory(fragment.cat);
     }
 
-    public void preupdate() {
+    void preupdate() {
         fragment.showLoad();
 
     }
@@ -294,14 +292,16 @@ public class PageListActivity extends FragmentActivity implements
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo mobileInfor = connMgr
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        assert networkInfo != null;
         wifiConnected = networkInfo.isConnected();
+        assert mobileInfor != null;
         mobileConnected = mobileInfor.isConnected();
         SpinnerAdapter sadapt = ArrayAdapter.createFromResource(this,
                 R.array.action_list,
                 android.R.layout.simple_spinner_dropdown_item);
         ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
             // Get the same strings provided for the drop-down's ArrayAdapter
-            String[] strings = getResources().getStringArray(
+            final String[] strings = getResources().getStringArray(
                     R.array.action_list);
 
             @Override
@@ -311,18 +311,13 @@ public class PageListActivity extends FragmentActivity implements
                 if (strings[position] != null && fragment != null) {
                     fragment.setCategory(strings[position]);
 
-                } else {
-                    if (fragment == null) {
-
-                    }
-                    if (strings[position] == null) {
-
-                    }
                 }
+
                 return true;
             }
         };
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
         // Checks the orientation of the screen

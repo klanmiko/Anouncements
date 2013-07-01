@@ -15,7 +15,7 @@ import java.util.Calendar;
  * Created by eternitysst on 5/29/13.
  */
 public class BootReceiver extends BroadcastReceiver {
-    boolean running = false;
+    private boolean running = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
