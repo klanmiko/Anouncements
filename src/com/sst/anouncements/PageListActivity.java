@@ -213,10 +213,12 @@ public class PageListActivity extends FragmentActivity implements
 
         } else {
             Intent detailIntent = new Intent(this, PageDetailActivity.class);
+            DummyContent.ITEM.get(position).read = true;
             detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra(PageDetailFragment.link,
                     DummyContent.ITEM.get(position).link);
             startActivity(detailIntent);
+
         }
     }
 

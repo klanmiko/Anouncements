@@ -18,6 +18,7 @@ public class DummyContent {
         public final String description;
         public final String link;
         public final String author;
+        public boolean read = false;
 
         public DummyItem(String id, String content, String description,
                          String link, String author) {

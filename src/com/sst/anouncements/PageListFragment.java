@@ -10,24 +10,30 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import com.sst.anouncements.dummy.DummyContent;
 
 public class PageListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
     // --Commented out by Inspection (6/15/13 9:03 PM):public static final String category = "Category";
     public String cat = "all";
     private adapt adapter = null;
     // --Commented out by Inspection (6/15/13 9:03 PM):public DataSetObserver observe;
+    ArrayList<Callbacks> callbacks = new ArrayList<Callbacks>();
 
     public interface Callbacks {
 
         public void onItemSelected(String id, int position);
 
         public void fragment(PageListFragment frag);
+    }
+
+    public void registerlistener(Callbacks callback) {
+        callbacks.add(callback);
     }
 
     private static final Callbacks sDummyCallbacks = new Callbacks() {
@@ -50,7 +56,7 @@ public class PageListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         this.setCategory("All");
         adapter = new adapt(getActivity(),
-                com.sst.anouncements.R.layout.item_row);
+                com.sst.anouncements.R.layout.item_row, this);
         setListAdapter(adapter);
 
     }
@@ -93,6 +99,9 @@ public class PageListFragment extends ListFragment {
     public void onListItemClick(ListView listView, View view, int position,
                                 long id) {
         super.onListItemClick(listView, view, position, id);
+        for (Callbacks callback : callbacks) {
+            callback.onItemSelected(DummyContent.getContent().get(position).id, position);
+        }
         mCallbacks.onItemSelected(DummyContent.getContent().get(position).id,
                 position);
     }

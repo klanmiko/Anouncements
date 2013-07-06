@@ -113,6 +113,8 @@ public class UpdateService extends Service {
         if (wifiConnected || mobileConnected) {
             new XmlLoad(this).execute(URL);
 
+        } else {
+            wakeLock.release();
         }
 
 

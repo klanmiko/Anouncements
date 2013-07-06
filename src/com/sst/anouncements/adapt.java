@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.graphics.Typeface;
 
 import com.sst.anouncements.dummy.DummyContent;
 import com.sst.anouncements.dummy.DummyContent.DummyItem;
@@ -18,13 +19,15 @@ import java.util.List;
 public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
     private final Context context;
     private final int layoutResourceId;
+    private PageListFragment fragment;
     private List<DummyItem> objects = new ArrayList<DummyItem>();
 
-    public adapt(Context context, int resource) {
+    public adapt(Context context, int resource, PageListFragment fragment) {
         super(context, resource, DummyContent.ITEM);
         this.layoutResourceId = resource;
         this.context = context;
         this.objects = DummyContent.ITEM;
+        this.fragment = fragment;
         // TODO Auto-generated constructor stub
     }
 
@@ -57,12 +60,16 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
             hold.name = (TextView) v.findViewById(R.id.Post);
             hold.author = (TextView) v.findViewById(R.id.author);
             hold.button = (ToggleButton) v.findViewById(R.id.toggleButton);
-
+            hold.position = position;
             if (hold.name != null) {
                 hold.name.setText(i.content);
+                if (!i.read) {
+                    hold.name.setTypeface(null, Typeface.BOLD);
+                }
             }
             if (hold.desc != null) {
                 hold.desc.setText(i.description);
+
                 hold.desc.setVisibility(View.GONE);
             }
             if (hold.author != null) {
@@ -72,14 +79,15 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
             if (hold.button != null) {
                 hold.button.setChecked(false);
                 hold.button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        hold.name.setTypeface(null, Typeface.NORMAL);
+                        DummyContent.ITEM.get(hold.position).read = true;
                         ToggleButton mbutton = (ToggleButton) compoundButton;
                         boolean on = mbutton.isChecked();
                         if (on) {
                             hold.desc.setVisibility(View.VISIBLE);
+
                         } else {
                             hold.desc.setVisibility(View.GONE);
                         }
@@ -94,11 +102,29 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
         return DummyContent.ITEM.size();
     }
 
-    static class textHold {
+    public class textHold {
         TextView desc;
         TextView name;
         TextView author;
         ToggleButton button;
+        int position;
+        PageListFragment.Callbacks callback = new PageListFragment.Callbacks() {
+            @Override
+            public void onItemSelected(String id, int position) {
+                name.setTypeface(null, Typeface.NORMAL);
+                DummyContent.ITEM.get(position).read = true;
+            }
+
+            @Override
+            public void fragment(PageListFragment frag) {
+                // TODO Auto-generated method stub
+
+            }
+        };
+
+        public textHold() {
+            fragment.registerlistener(callback);
+        }
     }
 
 }
