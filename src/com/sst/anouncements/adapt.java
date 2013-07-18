@@ -65,6 +65,8 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
                 hold.name.setText(i.content);
                 if (!i.read) {
                     hold.name.setTypeface(null, Typeface.BOLD);
+                } else if (i.read) {
+                    hold.name.setTypeface(null, Typeface.NORMAL);
                 }
             }
             if (hold.desc != null) {

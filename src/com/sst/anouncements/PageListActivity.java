@@ -281,51 +281,5 @@ public class PageListActivity extends FragmentActivity implements
 
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        try {
-            DummyContent.load(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        this.setContentView(R.layout.activity_page_list);
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo mobileInfor = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        assert networkInfo != null;
-        wifiConnected = networkInfo.isConnected();
-        assert mobileInfor != null;
-        mobileConnected = mobileInfor.isConnected();
-        SpinnerAdapter sadapt = ArrayAdapter.createFromResource(this,
-                R.array.action_list,
-                android.R.layout.simple_spinner_dropdown_item);
-        ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
-            // Get the same strings provided for the drop-down's ArrayAdapter
-            final String[] strings = getResources().getStringArray(
-                    R.array.action_list);
 
-            @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
-                // Create new fragment from our own Fragment class
-
-                if (strings[position] != null && fragment != null) {
-                    fragment.setCategory(strings[position]);
-
-                }
-
-                return true;
-            }
-        };
-        ActionBar actionBar = getActionBar();
-        assert actionBar != null;
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
-        // Checks the orientation of the screen
-
-    }
 }
