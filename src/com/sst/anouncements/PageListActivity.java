@@ -157,8 +157,9 @@ public class PageListActivity extends FragmentActivity implements
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         assert networkInfo != null;
         wifiConnected = networkInfo.isConnected();
-        assert mobileInfor != null;
-        mobileConnected = mobileInfor.isConnected();
+        if (mobileInfor != null) {
+            mobileConnected = mobileInfor.isConnected();
+        }
         try {
             File httpCacheDir = new File(this.getCacheDir(), "http");
             long httpCacheSize = 10 * 1024 * 1024; // 10 MiB
@@ -204,8 +205,10 @@ public class PageListActivity extends FragmentActivity implements
     @Override
     public void onItemSelected(String id, int position) {
         if (mTwoPane) {
+            DummyContent.ITEM.get(position).read = true;
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
             PageDetailFragment fragment = new PageDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
