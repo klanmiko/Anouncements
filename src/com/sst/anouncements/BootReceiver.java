@@ -36,15 +36,29 @@ public class BootReceiver extends BroadcastReceiver {
             Integer no;
             if (syncConnPref.equalsIgnoreCase("Manually")) {
                 no = 0;
+                service.cancel(pending);
 
+            } else if (syncConnPref.equalsIgnoreCase("15 Mins")) {
+                service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        cal.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pending);
+            } else if (syncConnPref.equalsIgnoreCase("30 Mins")) {
+                service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        cal.getTimeInMillis(), AlarmManager.INTERVAL_HALF_HOUR, pending);
+            } else if (syncConnPref.equalsIgnoreCase("Every Hour")) {
+                service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        cal.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, pending);
+            } else if (syncConnPref.equalsIgnoreCase("Every Day")) {
+                service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pending);
             } else {
                 no = new Integer(syncConnPref);
+                service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        cal.getTimeInMillis(), 1000 * 60 * no, pending);
             }
             //
             // Fetch every 30 seconds
             // InexactRepeating allows Android to optimize the energy consumption
-            service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                    cal.getTimeInMillis(), 1000 * 60 * no, pending);
+
             running = true;
         }
 

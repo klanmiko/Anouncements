@@ -59,7 +59,6 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
             hold.desc = (TextView) v.findViewById(R.id.Desc);
             hold.name = (TextView) v.findViewById(R.id.Post);
             hold.author = (TextView) v.findViewById(R.id.author);
-            hold.button = (ToggleButton) v.findViewById(R.id.toggleButton);
             hold.position = position;
             if (hold.name != null) {
                 hold.name.setText(i.content);
@@ -78,24 +77,6 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
                 hold.author.setText(i.author);
             }
             assert hold.desc != null;
-            if (hold.button != null) {
-                hold.button.setChecked(false);
-                hold.button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        hold.name.setTypeface(null, Typeface.NORMAL);
-                        DummyContent.ITEM.get(hold.position).read = true;
-                        ToggleButton mbutton = (ToggleButton) compoundButton;
-                        boolean on = mbutton.isChecked();
-                        if (on) {
-                            hold.desc.setVisibility(View.VISIBLE);
-
-                        } else {
-                            hold.desc.setVisibility(View.GONE);
-                        }
-                    }
-                });
-            }
         }
         return v;
     }
@@ -108,7 +89,6 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
         TextView desc;
         TextView name;
         TextView author;
-        ToggleButton button;
         int position;
         PageListFragment.Callbacks callback = new PageListFragment.Callbacks() {
             @Override

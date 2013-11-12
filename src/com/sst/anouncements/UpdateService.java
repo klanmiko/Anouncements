@@ -108,8 +108,12 @@ public class UpdateService extends Service {
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         assert networkInfo != null;
         boolean wifiConnected = networkInfo.isConnected();
-        assert mobileInfor != null;
-        boolean mobileConnected = mobileInfor.isConnected();
+        boolean mobileConnected;
+        if (mobileInfor != null) {
+            mobileConnected = mobileInfor.isConnected();
+        } else {
+            mobileConnected = false;
+        }
         if (wifiConnected || mobileConnected) {
             new XmlLoad(this).execute(URL);
 
@@ -141,8 +145,7 @@ public class UpdateService extends Service {
                         .setAutoCancel(true)
                         .setVibrate(pattern);
 
-        ;
-// Creates an explicit intent for an Activity in your app
+        // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, PageListActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("update", "no");

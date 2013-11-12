@@ -13,14 +13,14 @@
     <fragment
             android:id="@+id/page_list"
             android:name="com.sst.anouncements.PageListFragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+        android:layout_width="204dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:layout="@layout/activity_page_list" />
 
     <FrameLayout
-            android:id="@+id/page_detail_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/page_detail_container"></FrameLayout>
 
 </LinearLayout>

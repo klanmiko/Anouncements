@@ -1,6 +1,7 @@
 package com.sst.anouncements;
 
 import android.app.ActionBar;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.*;
 import android.content.res.Configuration;
@@ -11,7 +12,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +38,13 @@ public class PageListActivity extends FragmentActivity implements
     private boolean load = true;
     private PageListFragment fragment;
     private UpdateService service;
+    private PageListActivity parent;
+    private ViewPager mPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private pageradapter mPagerAdapter;
     // --Commented out by Inspection (6/15/13 9:03 PM):private UpdateService service;
     private final ServiceConnection updateservice = new ServiceConnection() {
         @Override
@@ -145,6 +155,7 @@ public class PageListActivity extends FragmentActivity implements
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
         PreferenceManager.setDefaultValues(this, R.layout.settings, false);
 
         this.setContentView(R.layout.activity_page_list);
@@ -197,8 +208,14 @@ public class PageListActivity extends FragmentActivity implements
 
         if (findViewById(R.id.page_detail_container) != null) {
             mTwoPane = true;
-            ((PageListFragment) getSupportFragmentManager().findFragmentById(
-                    R.id.page_list)).setActivateOnItemClick(true);
+            /*mPager = (ViewPager) findViewById(R.id.pagerf);
+            mPagerAdapter = new pageradapter(getSupportFragmentManager(),this,0);
+            mPager.setAdapter(mPagerAdapter);*/
+            ((PageListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.page_list))
+                    .setActivateOnItemClick(true);
+
+
         }
     }
 
@@ -206,20 +223,28 @@ public class PageListActivity extends FragmentActivity implements
     public void onItemSelected(String id, int position) {
         if (mTwoPane) {
             DummyContent.ITEM.get(position).read = true;
+            fragment.setCategory(fragment.cat);
+            /*mPager = (ViewPager) findViewById(R.id.pagerf);
+            mPagerAdapter = new pageradapter(parent.getSupportFragmentManager(),this,position);
+            mPager.setAdapter(mPagerAdapter);*/
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
             arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
-            PageDetailFragment fragment = new PageDetailFragment();
+            arguments.putInt(PageDetailFragment.pos, position);
+            PageDetailFragment fragment = new PageDetailFragment(this);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.page_detail_container, fragment).commit();
 
+
         } else {
             Intent detailIntent = new Intent(this, PageDetailActivity.class);
             DummyContent.ITEM.get(position).read = true;
+            fragment.setCategory(fragment.cat);
             detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra(PageDetailFragment.link,
                     DummyContent.ITEM.get(position).link);
+            detailIntent.putExtra(PageDetailFragment.pos, position);
             startActivity(detailIntent);
 
         }
@@ -252,6 +277,12 @@ public class PageListActivity extends FragmentActivity implements
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsFragment.class);
                 this.startActivity(intent);
+                return true;
+            case R.id.action_about:
+                Intent intent1 = new Intent(this, AboutActivity.class);
+                this.startActivity(intent1);
+                return true;
+
         }
         return false;
 

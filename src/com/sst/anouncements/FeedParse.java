@@ -85,7 +85,6 @@ class FeedParse {
             } else {
                 skip(parser);
             }
-            Log.i("Parser", "entry read");
 
         }
         return new Announcement(link, title, summary, author);
