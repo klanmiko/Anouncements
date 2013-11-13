@@ -207,14 +207,15 @@ public class PageListActivity extends FragmentActivity implements
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
 
-        if (findViewById(R.id.page_detail_container) != null) {
+        if (findViewById(R.id.pagerf) != null) {
             mTwoPane = true;
             /*mPager = (ViewPager) findViewById(R.id.pagerf);
             mPagerAdapter = new pageradapter(getSupportFragmentManager(),this,0);
-            mPager.setAdapter(mPagerAdapter);*/
+            mPager.setAdapter(mPagerAdapter);
+            /*
             ((PageListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.page_list))
-                    .setActivateOnItemClick(true);
+                    .setActivateOnItemClick(true);*/
 
 
         }
@@ -225,9 +226,10 @@ public class PageListActivity extends FragmentActivity implements
         if (mTwoPane) {
             DummyContent.ITEM.get(position).read = true;
             fragment.setCategory(fragment.cat);
-            /*mPager = (ViewPager) findViewById(R.id.pagerf);
+           /* mPager = (ViewPager) findViewById(R.id.pagerf);
             mPagerAdapter = new pageradapter(parent.getSupportFragmentManager(),this,position);
-            mPager.setAdapter(mPagerAdapter);*/
+            mPager.setAdapter(mPagerAdapter);
+            /*
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
             arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
@@ -235,7 +237,7 @@ public class PageListActivity extends FragmentActivity implements
             PageDetailFragment fragment = new PageDetailFragment(this);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.page_detail_container, fragment).commit();
+                    .replace(R.id.page_detail_container, fragment).commit();*/
 
 
         } else {

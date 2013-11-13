@@ -20,10 +20,10 @@ public class PageDetailActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_page_detail);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        /*mPager = (ViewPager) findViewById(R.id.pagerf);
+        mPager = (ViewPager) findViewById(R.id.pagerf);
         mPagerAdapter = new pageradapter(getSupportFragmentManager(),this,getIntent().getIntExtra(PageDetailFragment.pos,0));
-        mPager.setAdapter(mPagerAdapter);*/
-
+        mPager.setAdapter(mPagerAdapter);
+        /*
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, getIntent()
@@ -35,8 +35,10 @@ public class PageDetailActivity extends FragmentActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.page_detail_container, fragment).commit();
         }
+        */
     }
-    /*@Override
+
+    @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
@@ -47,7 +49,7 @@ public class PageDetailActivity extends FragmentActivity {
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
-    */
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

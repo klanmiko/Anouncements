@@ -1,5 +1,6 @@
 package com.sst.anouncements;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,11 +25,11 @@ class PageDetailFragment extends Fragment {
     public static final String pos = "position";
     private boolean wifiConnected = false;
     private boolean mobileConnected = false;
-    private Context parent;
+    private Activity parent;
 
     // --Commented out by Inspection (6/15/13 9:03 PM):private DummyContent.DummyItem mItem;
 
-    public PageDetailFragment(Context parent) {
+    public PageDetailFragment(Activity parent) {
         this.parent = parent;
     }
 
