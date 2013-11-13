@@ -92,7 +92,8 @@ public class PageListActivity extends FragmentActivity implements
             xml
                     .execute("http://sst-students2013.blogspot.com/feeds/posts/default");
         } else {
-            Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT).show();
+
 
         }
 
