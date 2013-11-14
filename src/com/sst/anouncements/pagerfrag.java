@@ -27,7 +27,12 @@ public class pagerfrag extends Fragment {
         View rootView = inflater.inflate(R.layout.pager,
                 container, false);
         mPager = (ViewPager) rootView.findViewById(R.id.pagerview);
-        mPagerAdapter = new pageradapter(this.getActivity().getSupportFragmentManager(), getArguments().getInt(PageDetailFragment.pos, 0));
+        if (this.getArguments() == null || this.getArguments().containsKey(PageDetailFragment.pos) == false) {
+            mPagerAdapter = new pageradapter(this.getActivity().getSupportFragmentManager(), 0);
+
+        } else {
+            mPagerAdapter = new pageradapter(this.getActivity().getSupportFragmentManager(), getArguments().getInt(PageDetailFragment.pos, 0));
+        }
         if (mPagerAdapter == null) {
             throw new NullPointerException();
         } else if (mPager == null) {
