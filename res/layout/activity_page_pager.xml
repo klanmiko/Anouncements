@@ -19,10 +19,10 @@
         tools:layout="@layout/list" />
 
     <fragment
+        android:id="@+id/pagerf"
         android:name="com.sst.anouncements.pagerfrag"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:id="@+id/pagerf"></fragment>
+        android:layout_weight="3" />
 
 </LinearLayout>

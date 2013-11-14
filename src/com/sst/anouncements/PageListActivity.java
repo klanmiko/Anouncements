@@ -1,10 +1,12 @@
 package com.sst.anouncements;
 
 import android.app.ActionBar;
-import android.app.NotificationManager;
-import android.app.Service;
-import android.content.*;
-import android.content.res.Configuration;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.HttpResponseCache;
@@ -12,10 +14,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -206,7 +206,7 @@ public class PageListActivity extends FragmentActivity implements
         assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
-
+        Network.init(this);
         if (findViewById(R.id.pagerf) != null) {
             mTwoPane = true;
             /*mPager = (ViewPager) findViewById(R.id.pagerf);

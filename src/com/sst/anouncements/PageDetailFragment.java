@@ -1,10 +1,5 @@
 package com.sst.anouncements;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,33 +19,23 @@ class PageDetailFragment extends Fragment {
     public static final String link = "link";
     public static final String pos = "position";
     private boolean wifiConnected = false;
-    private boolean mobileConnected = false;
-    private Activity parent;
 
     // --Commented out by Inspection (6/15/13 9:03 PM):private DummyContent.DummyItem mItem;
 
-    public PageDetailFragment(Activity parent) {
-        this.parent = parent;
+    public PageDetailFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        wifiConnected = Network.getNetwork();
         if (getArguments().containsKey(link)) {
             URL = getArguments().getString(link);
         } else {
             URL = DummyContent.ITEM.get((getArguments().getInt(pos))).link;
         }
-        ConnectivityManager connMgr = (ConnectivityManager) parent.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo mobileInfor = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        assert networkInfo != null;
-        wifiConnected = networkInfo.isConnected();
-        if (mobileInfor != null) {
-            mobileConnected = mobileInfor.isConnected();
-        }
+
     }
 
     @Override
@@ -58,7 +43,7 @@ class PageDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page_detail,
                 container, false);
-        if (wifiConnected || mobileConnected) {
+        if (wifiConnected) {
             if (URL != null) {
             assert rootView != null;
             WebView view = (WebView) rootView.findViewById(R.id.webView1);

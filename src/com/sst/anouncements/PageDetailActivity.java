@@ -21,7 +21,7 @@ public class PageDetailActivity extends FragmentActivity {
         this.setContentView(R.layout.activity_page_detail);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         mPager = (ViewPager) findViewById(R.id.pagerf);
-        mPagerAdapter = new pageradapter(getSupportFragmentManager(),this,getIntent().getIntExtra(PageDetailFragment.pos,0));
+        mPagerAdapter = new pageradapter(getSupportFragmentManager(), getIntent().getIntExtra(PageDetailFragment.pos, 0));
         mPager.setAdapter(mPagerAdapter);
         /*
         if (savedInstanceState == null) {

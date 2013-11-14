@@ -18,8 +18,12 @@ public class pagerfrag extends Fragment {
      */
     private pageradapter mPagerAdapter;
 
-    public pagerfrag(PageListActivity parent) {
-        this.parent = parent;
+    public pagerfrag() {
+
+    }
+
+    public void setParent(PageListActivity parent1) {
+        this.parent = parent1;
     }
 
     @Override
@@ -28,7 +32,7 @@ public class pagerfrag extends Fragment {
         View rootView = inflater.inflate(R.layout.pager,
                 container, false);
         mPager = (ViewPager) container.findViewById(R.id.pagerf);
-        mPagerAdapter = new pageradapter(parent.getSupportFragmentManager(), parent, getArguments().getInt(PageDetailFragment.pos, 0));
+        mPagerAdapter = new pageradapter(parent.getSupportFragmentManager(), getArguments().getInt(PageDetailFragment.pos, 0));
         mPager.setAdapter(mPagerAdapter);
         return rootView;
     }
