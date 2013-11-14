@@ -20,22 +20,16 @@ public class PageDetailActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_page_detail);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        mPager = (ViewPager) findViewById(R.id.pagerf);
-        mPagerAdapter = new pageradapter(getSupportFragmentManager(), getIntent().getIntExtra(PageDetailFragment.pos, 0));
-        mPager.setAdapter(mPagerAdapter);
-        /*
+
         if (savedInstanceState == null) {
-            Bundle arguments = new Bundle();
-            arguments.putString(PageDetailFragment.ARG_ITEM_ID, getIntent()
-                    .getStringExtra(PageDetailFragment.ARG_ITEM_ID));
-            arguments.putString(PageDetailFragment.link, getIntent()
-                    .getStringExtra(PageDetailFragment.link));
-            PageDetailFragment fragment = new PageDetailFragment(this);
-            fragment.setArguments(arguments);
+            Bundle bundle = new Bundle();
+            bundle.putInt(PageDetailFragment.pos, this.getIntent().getIntExtra(PageDetailFragment.pos, 0));
+            pagerfrag fragment = new pagerfrag();
+            fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.page_detail_container, fragment).commit();
         }
-        */
+
     }
 
     @Override

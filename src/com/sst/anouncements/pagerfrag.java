@@ -12,7 +12,6 @@ import android.view.ViewGroup;
  */
 public class pagerfrag extends Fragment {
     private ViewPager mPager;
-    private PageListActivity parent;
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
@@ -22,18 +21,20 @@ public class pagerfrag extends Fragment {
 
     }
 
-    public void setParent(PageListActivity parent1) {
-        this.parent = parent1;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pager,
                 container, false);
-        mPager = (ViewPager) container.findViewById(R.id.pagerf);
-        mPagerAdapter = new pageradapter(parent.getSupportFragmentManager(), getArguments().getInt(PageDetailFragment.pos, 0));
-        mPager.setAdapter(mPagerAdapter);
+        mPager = (ViewPager) rootView.findViewById(R.id.pagerview);
+        mPagerAdapter = new pageradapter(this.getActivity().getSupportFragmentManager(), getArguments().getInt(PageDetailFragment.pos, 0));
+        if (mPagerAdapter == null) {
+            throw new NullPointerException();
+        } else if (mPager == null) {
+            throw new NullPointerException();
+        } else {
+            mPager.setAdapter(mPagerAdapter);
+        }
         return rootView;
     }
 }

@@ -15,7 +15,6 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,8 +37,6 @@ public class PageListActivity extends FragmentActivity implements
     private boolean load = true;
     private PageListFragment fragment;
     private UpdateService service;
-    private PageListActivity parent;
-    private ViewPager mPager;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
