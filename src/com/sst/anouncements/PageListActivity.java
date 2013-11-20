@@ -246,7 +246,6 @@ public class PageListActivity extends FragmentActivity implements
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
             arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
-            arguments.putInt(PageDetailFragment.pos, position);
             PageDetailFragment fragger = new PageDetailFragment();
             fragger.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
