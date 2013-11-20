@@ -1,13 +1,19 @@
 package com.sst.anouncements.dummy;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
-import com.sst.anouncements.PageListActivity;
-
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class DummyContent {
 
@@ -20,6 +26,7 @@ public class DummyContent {
         public final String author;
         public boolean read = false;
 
+
         public DummyItem(String id, String content, String description,
                          String link, String author) {
             this.id = id;
@@ -28,6 +35,7 @@ public class DummyContent {
             this.link = link;
             this.author = author;
         }
+
 
         @Override
         public String toString() {
@@ -55,8 +63,14 @@ public class DummyContent {
     public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
+    public static interface Notify {
+        public void notifyupdate();
+    }
+
     static {
     }
+
+    private static ArrayList<Notify> adapters = new ArrayList<Notify>();
 
     public static void addItem(DummyItem item) {
 
@@ -93,6 +107,9 @@ public class DummyContent {
 
         }
         ITEM = me;
+        for (Notify notify : adapters) {
+            notify.notifyupdate();
+        }
 
     }
 
@@ -117,5 +134,9 @@ public class DummyContent {
         ITEMS = (List<DummyItem>) o.readObject();
         o.close();
         DummyContent.setContent("All");
+    }
+
+    public static void addadapter(Notify notify) {
+        adapters.add(notify);
     }
 }

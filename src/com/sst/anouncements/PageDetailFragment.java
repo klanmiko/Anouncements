@@ -20,10 +20,9 @@ class PageDetailFragment extends Fragment {
     public static final String pos = "position";
     private boolean wifiConnected = false;
 
-    // --Commented out by Inspection (6/15/13 9:03 PM):private DummyContent.DummyItem mItem;
-
     public PageDetailFragment() {
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,4 +70,5 @@ class PageDetailFragment extends Fragment {
         }
         return rootView;
     }
+
 }

@@ -10,9 +10,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import com.sst.anouncements.dummy.DummyContent;
+
+import java.util.ArrayList;
 
 public class PageListFragment extends ListFragment {
 
@@ -29,7 +29,7 @@ public class PageListFragment extends ListFragment {
 
         public void onItemSelected(String id, int position);
 
-        public void fragment(PageListFragment frag);
+        public void fragmentlist(PageListFragment frag);
     }
 
     public void registerlistener(Callbacks callback) {
@@ -42,7 +42,7 @@ public class PageListFragment extends ListFragment {
         }
 
         @Override
-        public void fragment(PageListFragment frag) {
+        public void fragmentlist(PageListFragment frag) {
             // TODO Auto-generated method stub
 
         }
@@ -86,7 +86,7 @@ public class PageListFragment extends ListFragment {
         }
 
         mCallbacks = (Callbacks) activity;
-        mCallbacks.fragment(this);
+        mCallbacks.fragmentlist(this);
     }
 
     @Override
@@ -133,6 +133,12 @@ public class PageListFragment extends ListFragment {
     public void setCategory(String cat) {
         this.cat = cat;
         DummyContent.setContent(cat);
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void notifyupdate() {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }

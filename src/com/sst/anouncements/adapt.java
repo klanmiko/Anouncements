@@ -1,14 +1,12 @@
 package com.sst.anouncements;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-import android.graphics.Typeface;
 
 import com.sst.anouncements.dummy.DummyContent;
 import com.sst.anouncements.dummy.DummyContent.DummyItem;
@@ -16,7 +14,7 @@ import com.sst.anouncements.dummy.DummyContent.DummyItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
+public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements DummyContent.Notify {
     private final Context context;
     private final int layoutResourceId;
     private PageListFragment fragment;
@@ -85,6 +83,11 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
         return DummyContent.ITEM.size();
     }
 
+    @Override
+    public void notifyupdate() {
+        this.notifyDataSetChanged();
+    }
+
     public class textHold {
         TextView desc;
         TextView name;
@@ -98,7 +101,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> {
             }
 
             @Override
-            public void fragment(PageListFragment frag) {
+            public void fragmentlist(PageListFragment frag) {
                 // TODO Auto-generated method stub
 
             }

@@ -1,5 +1,5 @@
 <resources>
 
-    <item name="activity_page_list" type="layout">@layout/activity_page_pager</item>
+    <item name="activity_page_list" type="layout">@layout/activity_page_twopane</item>
 
 </resources>

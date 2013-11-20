@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class PageListActivity extends FragmentActivity implements
-        PageListFragment.Callbacks, UpdateService.Update {
+        PageListFragment.Callbacks, UpdateService.Update, pagerfrag.Callbacks {
 
     private boolean mTwoPane;
     private boolean wifiConnected = false;
@@ -36,6 +36,7 @@ public class PageListActivity extends FragmentActivity implements
     private boolean first = true;
     private boolean load = true;
     private PageListFragment fragment;
+    private pagerfrag frag;
     private UpdateService service;
 
     /**
@@ -191,20 +192,34 @@ public class PageListActivity extends FragmentActivity implements
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
                 // Create new fragment from our own Fragment class
-
                 if (strings[position] != null && fragment != null) {
                     fragment.setCategory(strings[position]);
+                    if (frag != null) {
 
+
+                        Bundle arguments = new Bundle();
+                        arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(0).link);
+                        arguments.putInt(PageDetailFragment.pos, 0);
+                        frag = new pagerfrag();
+                        frag.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.pagerf, frag).commit();
+                        reg();
+
+
+                    }
                 }
                 return true;
             }
+
         };
+
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
         Network.init(this);
-        if (findViewById(R.id.pagerf) != null) {
+        if (findViewById(R.id.page_detail_container) != null) {
             mTwoPane = true;
 
 
@@ -216,27 +231,32 @@ public class PageListActivity extends FragmentActivity implements
         }
     }
 
+    private void reg() {
+        frag.registerlistener(this);
+    }
+
     @Override
     public void onItemSelected(String id, int position) {
         if (mTwoPane) {
             DummyContent.ITEM.get(position).read = true;
-            fragment.setCategory(fragment.cat);
-
-
+            fragment.notifyupdate();
+            if (frag != null) {
+                frag.setPage(position);
+            }
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
             arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
             arguments.putInt(PageDetailFragment.pos, position);
-            pagerfrag fragment = new pagerfrag();
-            fragment.setArguments(arguments);
+            PageDetailFragment fragger = new PageDetailFragment();
+            fragger.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.pagerf, fragment).commit();
+                    .replace(R.id.page_detail_container, fragger).commit();
 
 
         } else {
             Intent detailIntent = new Intent(this, PageDetailActivity.class);
             DummyContent.ITEM.get(position).read = true;
-            fragment.setCategory(fragment.cat);
+            fragment.notifyupdate();
             detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra(PageDetailFragment.link,
                     DummyContent.ITEM.get(position).link);
@@ -293,14 +313,16 @@ public class PageListActivity extends FragmentActivity implements
 
 
     @Override
-    public void fragment(PageListFragment frag) {
+    public void fragmentlist(PageListFragment frag) {
         // TODO Auto-generated method stub
         this.fragment = frag;
     }
 
     public void update() {
         fragment.hideLoad();
-        fragment.setCategory(fragment.cat);
+        fragment.notifyupdate();
+        if (frag != null)
+            frag.datasetchange();
     }
 
     void preupdate() {
@@ -309,4 +331,15 @@ public class PageListActivity extends FragmentActivity implements
     }
 
 
+    @Override
+    public void fragment(pagerfrag frag) {
+        this.frag = frag;
+        reg();
+    }
+
+    @Override
+    public void onItemSelected(int i) {
+        DummyContent.ITEM.get(i).read = true;
+        fragment.notifyupdate();
+    }
 }
