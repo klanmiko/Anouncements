@@ -139,6 +139,8 @@ public class PageListFragment extends ListFragment {
     }
 
     public void notifyupdate() {
+        //TODO change dummycontent so that ITEM reflects changes to ITEMS
+        DummyContent.setContent(cat);
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }

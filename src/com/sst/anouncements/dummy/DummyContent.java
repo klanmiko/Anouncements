@@ -62,6 +62,7 @@ public class DummyContent {
     public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    private static String cat;
 
     public static interface Notify {
         public void notifyupdate();
@@ -75,6 +76,28 @@ public class DummyContent {
     public static void addItem(DummyItem item) {
 
         ITEMS.add(0, item);
+        //TODO allow adding arrays
+        if (cat.equalsIgnoreCase("All")) {
+            ITEM.add(item);
+
+        } else if (cat.equalsIgnoreCase("General")) {
+            if (!item.content.toLowerCase(Locale.getDefault()).contains(
+                    "Info Hub".toLowerCase(Locale.getDefault())))
+
+            {
+                ITEM.add(item);
+
+            }
+        } else {
+            if (item.content.toLowerCase(Locale.getDefault()).contains(
+                    cat.toLowerCase(Locale.getDefault()))) {
+                ITEM.add(item);
+
+            }
+        }
+        for (Notify notify : adapters) {
+            notify.notifyupdate();
+        }
         ITEM_MAP.put(item.id, item);
     }
 
@@ -106,10 +129,9 @@ public class DummyContent {
             }
 
         }
+        cat = "All";
         ITEM = me;
-        for (Notify notify : adapters) {
-            notify.notifyupdate();
-        }
+
 
     }
 
