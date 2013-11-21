@@ -112,7 +112,7 @@ public class PageListActivity extends FragmentActivity implements
         }
 
         if (wifiConnected || mobileConnected) {
-            new GetXml(this)
+            new GetXml(this.getApplicationContext())
                     .execute("http://sst-students2013.blogspot.com/feeds/posts/default");
         }
 
