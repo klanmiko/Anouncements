@@ -62,7 +62,7 @@ public class DummyContent {
     public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
-    private static String cat;
+    private static String cat = "All";
 
     public static interface Notify {
         public void notifyupdate();
