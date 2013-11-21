@@ -114,6 +114,6 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
         if (last != null) {
             intent.putExtra("showfield", last.author);
         }
-        activity.sendBroadcast(intent);
+
     }
 }
