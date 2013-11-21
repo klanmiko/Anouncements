@@ -125,6 +125,17 @@ public class DummyContent {
         o.close();
     }
 
+    public static int findByAuthor(String author) {
+        if (author == null)
+            return -1;
+        for (DummyItem itema : ITEMS) {
+            if (itema.author == author) {
+                return ITEMS.indexOf(itema);
+            }
+        }
+        return -1;
+    }
+
     public static void load(Context context) throws IOException, ClassNotFoundException {
 
         File out = new File(context.getCacheDir(), "pages");

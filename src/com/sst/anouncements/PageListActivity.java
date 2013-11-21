@@ -178,7 +178,35 @@ public class PageListActivity extends FragmentActivity implements
             e.printStackTrace();
 
         }
+        if (findViewById(R.id.page_detail_container) != null) {
+            mTwoPane = true;
+            if (getIntent().hasExtra("showfield")) {
+                int position = getIntent().getIntExtra("showfield", 0);
+                Bundle arguments = new Bundle();
+                arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
+                arguments.putInt(PageDetailFragment.pos, position);
+                PageDetailFragment fragger = new PageDetailFragment();
+                fragger.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.page_detail_container, fragger).commit();
+            }
 
+            ((PageListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.page_list))
+                    .setActivateOnItemClick(true);
+
+
+        }
+        if (getIntent().hasExtra("showfield")) {
+            int position = getIntent().getIntExtra("showfield", 0);
+            Intent detailIntent = new Intent(this, PageDetailActivity.class);
+            DummyContent.ITEM.get(position).read = true;
+            fragment.notifyupdate();
+            detailIntent.putExtra(PageDetailFragment.link,
+                    DummyContent.ITEM.get(position).link);
+            detailIntent.putExtra(PageDetailFragment.pos, position);
+            startActivity(detailIntent);
+        }
         loadPage();
 
         SpinnerAdapter sadapt = ArrayAdapter.createFromResource(this,
@@ -219,16 +247,7 @@ public class PageListActivity extends FragmentActivity implements
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
         Network.init(this);
-        if (findViewById(R.id.page_detail_container) != null) {
-            mTwoPane = true;
 
-
-            ((PageListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.page_list))
-                    .setActivateOnItemClick(true);
-
-
-        }
     }
 
     private void reg() {
@@ -246,6 +265,7 @@ public class PageListActivity extends FragmentActivity implements
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
             arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
+            arguments.putInt(PageDetailFragment.pos, position);
             PageDetailFragment fragger = new PageDetailFragment();
             fragger.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

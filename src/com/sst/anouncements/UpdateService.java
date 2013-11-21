@@ -1,10 +1,12 @@
 package com.sst.anouncements;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Binder;
@@ -12,15 +14,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.sst.anouncements.dummy.DummyContent;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * Created by eternitysst on 5/25/13.
@@ -38,10 +35,14 @@ public class UpdateService extends Service {
 
             String number = intent.getStringExtra("new");
             Integer n = Integer.valueOf(number);
+            int pos = 0;
+            if (intent.hasExtra("showfield")) {
+                pos = DummyContent.findByAuthor(intent.getStringExtra("showfield"));
+            }
 
             if (n > 0) {
 
-                Notificate(n);
+                Notificate(n, pos);
             } else {
 
                 try {
@@ -135,7 +136,7 @@ public class UpdateService extends Service {
         // --Commented out by Inspection (6/15/13 9:03 PM):public void update();
     }
 
-    void Notificate(int no) {
+    void Notificate(int no, int pos) {
         long[] pattern = {200, 200, 500, 300, 1000};
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -150,6 +151,7 @@ public class UpdateService extends Service {
         Bundle bundle = new Bundle();
         bundle.putString("update", "no");
         resultIntent.putExtras(bundle);
+        resultIntent.putExtra("showfield", pos);
         PendingIntent intent1 = PendingIntent.getActivity(this, 0, resultIntent, 0);
 // The stack builder object will contain an artificial back stack for the
 // started Activity.
