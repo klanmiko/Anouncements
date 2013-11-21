@@ -95,15 +95,11 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
         Integer counter = 0;
         assert result != null;
         Announcement last = null;
-        int hashcode;
         for (Announcement announ : result) {
             DummyContent.addItem(new DummyContent.DummyItem(counter.toString(),
                     announ.title, announ.desc, announ.link, announ.author));
             counter++;
             last = announ;
-        }
-        if (last == null) {
-            hashcode = 0;
         }
         try {
             DummyContent.dump(activity);
@@ -115,7 +111,9 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
         activity.sendBroadcast(intent2);
         Intent intent = new Intent("com.sst.announcements.UPDATED");
         intent.putExtra("new", counter.toString());
-        intent.putExtra("showfield", last.author);
+        if (last != null) {
+            intent.putExtra("showfield", last.author);
+        }
         activity.sendBroadcast(intent);
     }
 }

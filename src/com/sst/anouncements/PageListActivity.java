@@ -182,13 +182,15 @@ public class PageListActivity extends FragmentActivity implements
             mTwoPane = true;
             if (getIntent().hasExtra("showfield")) {
                 int position = getIntent().getIntExtra("showfield", 0);
-                Bundle arguments = new Bundle();
-                arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
+                if (position != -1) {
+                    Bundle arguments = new Bundle();
+                    arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
                 arguments.putInt(PageDetailFragment.pos, position);
                 PageDetailFragment fragger = new PageDetailFragment();
                 fragger.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.page_detail_container, fragger).commit();
+                }
             }
 
             ((PageListFragment) getSupportFragmentManager()
@@ -199,13 +201,15 @@ public class PageListActivity extends FragmentActivity implements
         }
         if (getIntent().hasExtra("showfield")) {
             int position = getIntent().getIntExtra("showfield", 0);
-            Intent detailIntent = new Intent(this, PageDetailActivity.class);
-            DummyContent.ITEM.get(position).read = true;
+            if (position != -1) {
+                Intent detailIntent = new Intent(this, PageDetailActivity.class);
+                DummyContent.ITEM.get(position).read = true;
             fragment.notifyupdate();
             detailIntent.putExtra(PageDetailFragment.link,
                     DummyContent.ITEM.get(position).link);
             detailIntent.putExtra(PageDetailFragment.pos, position);
             startActivity(detailIntent);
+            }
         }
         loadPage();
 

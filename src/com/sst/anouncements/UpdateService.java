@@ -151,7 +151,8 @@ public class UpdateService extends Service {
         Bundle bundle = new Bundle();
         bundle.putString("update", "no");
         resultIntent.putExtras(bundle);
-        resultIntent.putExtra("showfield", pos);
+        if (pos != -1)
+            resultIntent.putExtra("showfield", pos);
         PendingIntent intent1 = PendingIntent.getActivity(this, 0, resultIntent, 0);
 // The stack builder object will contain an artificial back stack for the
 // started Activity.
