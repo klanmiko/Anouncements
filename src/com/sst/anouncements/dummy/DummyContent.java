@@ -59,9 +59,10 @@ public class DummyContent {
         }
     }
 
-    public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    private static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
-    public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    private static List<Integer> POINTER = new ArrayList<Integer>();
+    private static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
     private static String cat = "All";
 
     public static interface Notify {
@@ -69,6 +70,12 @@ public class DummyContent {
     }
 
     static {
+    }
+
+    public static boolean contains(DummyItem item) {
+        if (ITEMS.contains(item))
+            return true;
+        return false;
     }
 
     private static ArrayList<Notify> adapters = new ArrayList<Notify>();
@@ -79,6 +86,7 @@ public class DummyContent {
         //TODO allow adding arrays
         if (cat.equalsIgnoreCase("All")) {
             ITEM.add(item);
+            POINTER.add(ITEMS.indexOf(item));
 
         } else if (cat.equalsIgnoreCase("General")) {
             if (!item.content.toLowerCase(Locale.getDefault()).contains(
@@ -86,12 +94,14 @@ public class DummyContent {
 
             {
                 ITEM.add(item);
+                POINTER.add(ITEMS.indexOf(item));
 
             }
         } else {
             if (item.content.toLowerCase(Locale.getDefault()).contains(
                     cat.toLowerCase(Locale.getDefault()))) {
                 ITEM.add(item);
+                POINTER.add(ITEMS.indexOf(item));
 
             }
         }
@@ -107,31 +117,35 @@ public class DummyContent {
 
     public static void setContent(String cat) {
         List<DummyItem> me = new ArrayList<DummyItem>();
+        POINTER = new ArrayList<Integer>();
         for (DummyItem item : ITEMS) {
 
             if (cat.equalsIgnoreCase("All")) {
                 me.add(item);
-
+                POINTER.add(ITEMS.indexOf(item));
             } else if (cat.equalsIgnoreCase("General")) {
                 if (!item.content.toLowerCase(Locale.getDefault()).contains(
                         "Info Hub".toLowerCase(Locale.getDefault())))
 
                 {
                     me.add(item);
-
+                    POINTER.add(ITEMS.indexOf(item));
                 }
             } else {
                 if (item.content.toLowerCase(Locale.getDefault()).contains(
                         cat.toLowerCase(Locale.getDefault()))) {
                     me.add(item);
-
+                    POINTER.add(ITEMS.indexOf(item));
                 }
             }
 
         }
         cat = "All";
         ITEM = me;
-
+        me = null;
+        for (Notify notify : adapters) {
+            notify.notifyupdate();
+        }
 
     }
 
@@ -172,4 +186,29 @@ public class DummyContent {
     public static void addadapter(Notify notify) {
         adapters.add(notify);
     }
+
+    public static String getActiveAuthor(int pos) {
+        return ITEMS.get(POINTER.get(pos)).author;
+    }
+
+    public static String getActiveTitle(int pos) {
+        return ITEMS.get(POINTER.get(pos)).content;
+    }
+
+    public static String getActiveLink(int pos) {
+        return ITEMS.get(POINTER.get(pos)).link;
+    }
+
+    public static String getActiveDescription(int pos) {
+        return ITEMS.get(POINTER.get(pos)).description;
+    }
+
+    public static void setReadActive(boolean truth, int pos) {
+        ITEMS.get(POINTER.get(pos)).read = truth;
+        for (Notify notify : adapters) {
+            notify.notifyupdate();
+        }
+    }
+
+
 }

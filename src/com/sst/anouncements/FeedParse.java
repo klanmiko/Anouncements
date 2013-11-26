@@ -1,10 +1,6 @@
 package com.sst.anouncements;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.text.Html;
-import android.util.Log;
 import android.util.Xml;
 
 import com.sst.anouncements.dummy.DummyContent;
@@ -46,7 +42,7 @@ class FeedParse {
             // Starts by looking for the entry tag
             if (name.equals("entry")) {
                 Announcement entry = readEntry(parser);
-                if (DummyContent.ITEMS.contains(new DummyContent.DummyItem("2", entry.title, entry.desc, entry.link, entry.author))) {
+                if (DummyContent.contains(new DummyContent.DummyItem("2", entry.title, entry.desc, entry.link, entry.author))) {
                     return entries;
                 } else {
                     entries.add(0, entry);
