@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Calendar;
 
@@ -55,6 +54,8 @@ public class BootReceiver extends BroadcastReceiver {
                 service.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                         cal.getTimeInMillis(), 1000 * 60 * no, pending);
             }
+
+
             //
             // Fetch every 30 seconds
             // InexactRepeating allows Android to optimize the energy consumption

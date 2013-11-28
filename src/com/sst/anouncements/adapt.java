@@ -11,20 +11,16 @@ import android.widget.TextView;
 import com.sst.anouncements.dummy.DummyContent;
 import com.sst.anouncements.dummy.DummyContent.DummyItem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements DummyContent.Notify {
     private final Context context;
     private final int layoutResourceId;
     private PageListFragment fragment;
-    private List<DummyItem> objects = new ArrayList<DummyItem>();
+
 
     public adapt(Context context, int resource, PageListFragment fragment) {
-        super(context, resource, DummyContent.ITEM);
+        super(context, resource);
         this.layoutResourceId = resource;
         this.context = context;
-        this.objects = DummyContent.ITEM;
         this.fragment = fragment;
         // TODO Auto-generated constructor stub
     }
@@ -49,7 +45,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
 		 * 
 		 * Therefore, i refers to the current Item object.
 		 */
-        DummyItem i = DummyContent.ITEM.get(position);
+        DummyItem i = DummyContent.getActiveItem(position);
 
         if (i != null) {
             final textHold hold = new textHold();
@@ -80,7 +76,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
     }
 
     public int getCount() {
-        return DummyContent.ITEM.size();
+        return DummyContent.getActiveSize();
     }
 
     @Override
@@ -97,7 +93,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
             @Override
             public void onItemSelected(String id, int position) {
                 name.setTypeface(null, Typeface.NORMAL);
-                DummyContent.ITEM.get(position).read = true;
+                DummyContent.setReadActive(true, position);
             }
 
             @Override

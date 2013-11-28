@@ -18,6 +18,8 @@ import android.support.v4.app.NotificationCompat;
 import com.sst.anouncements.dummy.DummyContent;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by eternitysst on 5/25/13.
@@ -101,7 +103,7 @@ public class UpdateService extends Service {
         PowerManager mgr = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
         wakeLock.acquire();
-        String URL = "http://sst-students2013.blogspot.com/feeds/posts/default";
+        String URL = "http://studentsblog.sst.edu.sg/feeds/posts/default";
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr
@@ -116,6 +118,54 @@ public class UpdateService extends Service {
         } else {
             mobileConnected = false;
         }
+        DummyContent.DateSave save = null;
+        try {
+            save = DummyContent.loadDate(this.getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (save != null) {
+            GregorianCalendar cal = new GregorianCalendar(save.year, save.month, save.day);
+            Calendar calnow = GregorianCalendar.getInstance();
+            if (calnow.after(cal)) {
+                DummyContent.invalidate(this.getApplicationContext());
+                try {
+                    DummyContent.load(this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                cal.add(GregorianCalendar.MONTH, 1);
+                save = new DummyContent.DateSave(cal.get(GregorianCalendar.DAY_OF_MONTH), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.YEAR));
+                try {
+                    DummyContent.saveDate(save, this.getApplicationContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        } else {
+            DummyContent.invalidate(this.getApplicationContext());
+            try {
+                DummyContent.load(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            Calendar calendar = GregorianCalendar.getInstance();
+            calendar.add(Calendar.MONTH, 1);
+            save = new DummyContent.DateSave(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+            try {
+                DummyContent.saveDate(save, this.getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         if (wifiConnected || mobileConnected) {
             new XmlLoad(this.getApplicationContext()).execute(URL);
 

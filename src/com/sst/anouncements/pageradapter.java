@@ -41,7 +41,7 @@ public class pageradapter extends FragmentStatePagerAdapter implements DummyCont
 
     @Override
     public int getCount() {
-        return DummyContent.ITEM.size();
+        return DummyContent.getActiveSize();
     }
 
     public void setStart(int i) {

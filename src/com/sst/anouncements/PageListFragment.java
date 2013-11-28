@@ -100,9 +100,9 @@ public class PageListFragment extends ListFragment {
                                 long id) {
         super.onListItemClick(listView, view, position, id);
         for (Callbacks callback : callbacks) {
-            callback.onItemSelected(DummyContent.getContent().get(position).id, position);
+            callback.onItemSelected(DummyContent.getActiveId(position), position);
         }
-        mCallbacks.onItemSelected(DummyContent.getContent().get(position).id,
+        mCallbacks.onItemSelected(DummyContent.getActiveId(position),
                 position);
     }
 

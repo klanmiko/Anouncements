@@ -32,7 +32,7 @@ class PageDetailFragment extends Fragment {
         if (getArguments().containsKey(link)) {
             URL = getArguments().getString(link);
         } else {
-            URL = DummyContent.ITEM.get((getArguments().getInt(pos))).link;
+            URL = DummyContent.getActiveLink(getArguments().getInt(pos));
         }
 
     }
@@ -44,12 +44,12 @@ class PageDetailFragment extends Fragment {
                 container, false);
         if (wifiConnected) {
             if (URL != null) {
-            assert rootView != null;
-            WebView view = (WebView) rootView.findViewById(R.id.webView1);
-            view.setWebViewClient(new WebViewClient());
-            WebSettings webSettings = view.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            view.loadUrl(URL);
+                assert rootView != null;
+                WebView view = (WebView) rootView.findViewById(R.id.webView1);
+                view.setWebViewClient(new WebViewClient());
+                WebSettings webSettings = view.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                view.loadUrl(URL);
 
             }
         } else {
@@ -59,9 +59,9 @@ class PageDetailFragment extends Fragment {
             TextView title = (TextView) rootView.findViewById(R.id.titleview);
             TextView author = (TextView) rootView.findViewById(R.id.authorname);
             TextView content = (TextView) rootView.findViewById(R.id.content);
-            title.setText(DummyContent.ITEM.get(position).content);
-            author.setText(DummyContent.ITEM.get(position).author);
-            content.setText(DummyContent.ITEM.get(position).description);
+            title.setText(DummyContent.getActiveTitle(position));
+            author.setText(DummyContent.getActiveAuthor(position));
+            content.setText(DummyContent.getActiveDescription(position));
             title.setVisibility(View.VISIBLE);
             author.setVisibility(View.VISIBLE);
             content.setVisibility(View.VISIBLE);

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,6 +17,16 @@ import java.util.Locale;
 import java.util.Map;
 
 public class DummyContent {
+    public static class DateSave implements Serializable {
+        public final int day, month, year;
+
+        public DateSave(int day, int month, int year) {
+            this.day = day;
+            this.month = month;
+            this.year = year;
+        }
+
+    }
 
     public static class DummyItem implements Serializable {
 
@@ -60,7 +71,7 @@ public class DummyContent {
     }
 
     private static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
-    public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
+    //public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
     private static List<Integer> POINTER = new ArrayList<Integer>();
     private static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
     private static String cat = "All";
@@ -85,7 +96,7 @@ public class DummyContent {
         ITEMS.add(0, item);
         //TODO allow adding arrays
         if (cat.equalsIgnoreCase("All")) {
-            ITEM.add(item);
+            //ITEM.add(item);
             POINTER.add(ITEMS.indexOf(item));
 
         } else if (cat.equalsIgnoreCase("General")) {
@@ -93,14 +104,14 @@ public class DummyContent {
                     "Info Hub".toLowerCase(Locale.getDefault())))
 
             {
-                ITEM.add(item);
+                //ITEM.add(item);
                 POINTER.add(ITEMS.indexOf(item));
 
             }
         } else {
             if (item.content.toLowerCase(Locale.getDefault()).contains(
                     cat.toLowerCase(Locale.getDefault()))) {
-                ITEM.add(item);
+                //ITEM.add(item);
                 POINTER.add(ITEMS.indexOf(item));
 
             }
@@ -111,38 +122,38 @@ public class DummyContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    public static List<DummyItem> getContent() {
+    /*public static List<DummyItem> getContent() {
         return ITEM;
-    }
+    }*/
 
     public static void setContent(String cat) {
-        List<DummyItem> me = new ArrayList<DummyItem>();
+        //List<DummyItem> me = new ArrayList<DummyItem>();
         POINTER = new ArrayList<Integer>();
         for (DummyItem item : ITEMS) {
 
             if (cat.equalsIgnoreCase("All")) {
-                me.add(item);
+                //me.add(item);
                 POINTER.add(ITEMS.indexOf(item));
             } else if (cat.equalsIgnoreCase("General")) {
                 if (!item.content.toLowerCase(Locale.getDefault()).contains(
                         "Info Hub".toLowerCase(Locale.getDefault())))
 
                 {
-                    me.add(item);
+                    //me.add(item);
                     POINTER.add(ITEMS.indexOf(item));
                 }
             } else {
                 if (item.content.toLowerCase(Locale.getDefault()).contains(
                         cat.toLowerCase(Locale.getDefault()))) {
-                    me.add(item);
+                    //me.add(item);
                     POINTER.add(ITEMS.indexOf(item));
                 }
             }
 
         }
         cat = "All";
-        ITEM = me;
-        me = null;
+        //ITEM = me;
+        // me = null;
         for (Notify notify : adapters) {
             notify.notifyupdate();
         }
@@ -174,12 +185,16 @@ public class DummyContent {
 
     public static void load(Context context) throws IOException, ClassNotFoundException {
 
-        File out = new File(context.getCacheDir(), "pages");
-        FileInputStream f = new FileInputStream(out);
-        ObjectInputStream o = new ObjectInputStream(f);
-        ITEM_MAP = (Map<String, DummyItem>) o.readObject();
-        ITEMS = (List<DummyItem>) o.readObject();
-        o.close();
+        try {
+            File out = new File(context.getCacheDir(), "pages1.6");
+            FileInputStream f = new FileInputStream(out);
+            ObjectInputStream o = new ObjectInputStream(f);
+            ITEM_MAP = (Map<String, DummyItem>) o.readObject();
+            ITEMS = (List<DummyItem>) o.readObject();
+            o.close();
+        } catch (FileNotFoundException e) {
+            invalidate(context);
+        }
         DummyContent.setContent("All");
     }
 
@@ -208,6 +223,62 @@ public class DummyContent {
         for (Notify notify : adapters) {
             notify.notifyupdate();
         }
+    }
+
+    public static String getActiveId(int pos) {
+        return ITEMS.get(pos).id;
+    }
+
+    public static int getActiveSize() {
+        return POINTER.size();
+    }
+
+    public static DummyItem getActiveItem(int pos) {
+        return ITEMS.get(POINTER.get(pos));
+    }
+
+    public static void invalidate(Context context) {
+        try {
+            File dir = new File(context.getCacheDir(), ".");
+            for (File file : dir.listFiles()) {
+                if (file.getName().startsWith("pages")) {
+                    file.delete();
+                }
+            }
+        } catch (Exception ef) {
+            ef.printStackTrace();
+        }
+        ITEMS.clear();
+        POINTER.clear();
+        ITEM_MAP.clear();
+        for (Notify notify : adapters) {
+            notify.notifyupdate();
+        }
+    }
+
+    public static DateSave loadDate(Context context) throws IOException, ClassNotFoundException {
+        DateSave returns = null;
+        try {
+            File out = new File(context.getCacheDir(), "date");
+            FileInputStream f = new FileInputStream(out);
+            ObjectInputStream o = new ObjectInputStream(f);
+            returns = (DateSave) o.readObject();
+            o.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return returns;
+    }
+
+    public static void saveDate(DateSave save, Context context) throws IOException {
+        File out;
+        out = new File(context.getCacheDir(), "date");
+        FileOutputStream f;
+        f = new FileOutputStream(out);
+        ObjectOutputStream o;
+        o = new ObjectOutputStream(f);
+        o.writeObject(save);
+        o.close();
     }
 
 

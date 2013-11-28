@@ -57,6 +57,13 @@ public class PageListActivity extends FragmentActivity implements
         }
     };
 
+    private final BroadcastReceiver invalidreceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            loadPage();
+        }
+    };
+
 
     private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
         @Override
@@ -88,7 +95,7 @@ public class PageListActivity extends FragmentActivity implements
 
         if (wifiConnected || mobileConnected) {
             xml
-                    .execute("http://sst-students2013.blogspot.com/feeds/posts/default");
+                    .execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
         } else {
             Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT).show();
 
@@ -113,7 +120,7 @@ public class PageListActivity extends FragmentActivity implements
 
         if (wifiConnected || mobileConnected) {
             new GetXml(this.getApplicationContext())
-                    .execute("http://sst-students2013.blogspot.com/feeds/posts/default");
+                    .execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
         }
 
 
@@ -184,8 +191,8 @@ public class PageListActivity extends FragmentActivity implements
                 int position = getIntent().getIntExtra("showfield", 0);
                 if (position != -1) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
-                arguments.putInt(PageDetailFragment.pos, position);
+                    arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(position));
+                    arguments.putInt(PageDetailFragment.pos, position);
                 PageDetailFragment fragger = new PageDetailFragment();
                 fragger.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
@@ -203,11 +210,11 @@ public class PageListActivity extends FragmentActivity implements
             int position = getIntent().getIntExtra("showfield", 0);
             if (position != -1) {
                 Intent detailIntent = new Intent(this, PageDetailActivity.class);
-                DummyContent.ITEM.get(position).read = true;
-            fragment.notifyupdate();
+                DummyContent.setReadActive(true, position);
+                fragment.notifyupdate();
             detailIntent.putExtra(PageDetailFragment.link,
-                    DummyContent.ITEM.get(position).link);
-            detailIntent.putExtra(PageDetailFragment.pos, position);
+                    DummyContent.getActiveLink(position));
+                detailIntent.putExtra(PageDetailFragment.pos, position);
             startActivity(detailIntent);
             }
         }
@@ -230,7 +237,7 @@ public class PageListActivity extends FragmentActivity implements
 
 
                         Bundle arguments = new Bundle();
-                        arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(0).link);
+                        arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(position));
                         arguments.putInt(PageDetailFragment.pos, 0);
                         frag = new pagerfrag();
                         frag.setArguments(arguments);
@@ -261,14 +268,14 @@ public class PageListActivity extends FragmentActivity implements
     @Override
     public void onItemSelected(String id, int position) {
         if (mTwoPane) {
-            DummyContent.ITEM.get(position).read = true;
+            DummyContent.setReadActive(true, position);
             fragment.notifyupdate();
             if (frag != null) {
                 frag.setPage(position);
             }
             Bundle arguments = new Bundle();
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
-            arguments.putString(PageDetailFragment.link, DummyContent.ITEM.get(position).link);
+            arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(position));
             arguments.putInt(PageDetailFragment.pos, position);
             PageDetailFragment fragger = new PageDetailFragment();
             fragger.setArguments(arguments);
@@ -278,11 +285,11 @@ public class PageListActivity extends FragmentActivity implements
 
         } else {
             Intent detailIntent = new Intent(this, PageDetailActivity.class);
-            DummyContent.ITEM.get(position).read = true;
+            DummyContent.setReadActive(true, position);
             fragment.notifyupdate();
             detailIntent.putExtra(PageDetailFragment.ARG_ITEM_ID, id);
             detailIntent.putExtra(PageDetailFragment.link,
-                    DummyContent.ITEM.get(position).link);
+                    DummyContent.getActiveLink(position));
             detailIntent.putExtra(PageDetailFragment.pos, position);
             startActivity(detailIntent);
 
@@ -362,7 +369,7 @@ public class PageListActivity extends FragmentActivity implements
 
     @Override
     public void onItemSelected(int i) {
-        DummyContent.ITEM.get(i).read = true;
+        DummyContent.setReadActive(true, i);
         fragment.notifyupdate();
     }
 }
