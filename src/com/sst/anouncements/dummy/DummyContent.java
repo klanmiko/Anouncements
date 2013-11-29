@@ -86,7 +86,8 @@ public class DummyContent {
     public static boolean contains(DummyItem item) {
         if (ITEMS.contains(item))
             return true;
-        return false;
+        else
+            return false;
     }
 
     private static ArrayList<Notify> adapters = new ArrayList<Notify>();
@@ -162,7 +163,7 @@ public class DummyContent {
 
     public static void dump(Context activity) throws IOException {
         File out;
-        out = new File(activity.getCacheDir(), "pages");
+        out = new File(activity.getCacheDir(), "pages1.6");
         FileOutputStream f;
         f = new FileOutputStream(out);
         ObjectOutputStream o;
@@ -172,11 +173,11 @@ public class DummyContent {
         o.close();
     }
 
-    public static int findByAuthor(String author) {
-        if (author == null)
+    public static int findByAuthor(String content) {
+        if (content == null)
             return -1;
         for (DummyItem itema : ITEMS) {
-            if (itema.author == author) {
+            if (itema.content.equalsIgnoreCase(content)) {
                 return ITEMS.indexOf(itema);
             }
         }
@@ -201,6 +202,7 @@ public class DummyContent {
     public static void addadapter(Notify notify) {
         adapters.add(notify);
     }
+
 
     public static String getActiveAuthor(int pos) {
         return ITEMS.get(POINTER.get(pos)).author;

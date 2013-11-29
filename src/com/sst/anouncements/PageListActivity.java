@@ -38,6 +38,7 @@ public class PageListActivity extends FragmentActivity implements
     private PageListFragment fragment;
     private pagerfrag frag;
     private UpdateService service;
+    private int notifpos = -1;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
@@ -95,7 +96,7 @@ public class PageListActivity extends FragmentActivity implements
 
         if (wifiConnected || mobileConnected) {
             xml
-                    .execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
+                    .execute("http://announcementstest.blogspot.com/feeds/posts/default");
         } else {
             Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT).show();
 
@@ -120,7 +121,7 @@ public class PageListActivity extends FragmentActivity implements
 
         if (wifiConnected || mobileConnected) {
             new GetXml(this.getApplicationContext())
-                    .execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
+                    .execute("http://announcementstest.blogspot.com/feeds/posts/default");
         }
 
 
@@ -167,6 +168,7 @@ public class PageListActivity extends FragmentActivity implements
         this.setContentView(R.layout.activity_page_list);
         Intent tent = new Intent("com.sst.anouncements.STARTUPDATE");
         this.sendBroadcast(tent);
+        Network.init(this);
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -177,6 +179,7 @@ public class PageListActivity extends FragmentActivity implements
         if (mobileInfor != null) {
             mobileConnected = mobileInfor.isConnected();
         }
+        loadPage();
         try {
             File httpCacheDir = new File(this.getCacheDir(), "http");
             long httpCacheSize = 10 * 1024 * 1024; // 10 MiB
@@ -187,18 +190,7 @@ public class PageListActivity extends FragmentActivity implements
         }
         if (findViewById(R.id.page_detail_container) != null) {
             mTwoPane = true;
-            if (getIntent().hasExtra("showfield")) {
-                int position = getIntent().getIntExtra("showfield", 0);
-                if (position != -1) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(position));
-                    arguments.putInt(PageDetailFragment.pos, position);
-                PageDetailFragment fragger = new PageDetailFragment();
-                fragger.setArguments(arguments);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.page_detail_container, fragger).commit();
-                }
-            }
+
 
             ((PageListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.page_list))
@@ -206,19 +198,7 @@ public class PageListActivity extends FragmentActivity implements
 
 
         }
-        if (getIntent().hasExtra("showfield")) {
-            int position = getIntent().getIntExtra("showfield", 0);
-            if (position != -1) {
-                Intent detailIntent = new Intent(this, PageDetailActivity.class);
-                DummyContent.setReadActive(true, position);
-                fragment.notifyupdate();
-            detailIntent.putExtra(PageDetailFragment.link,
-                    DummyContent.getActiveLink(position));
-                detailIntent.putExtra(PageDetailFragment.pos, position);
-            startActivity(detailIntent);
-            }
-        }
-        loadPage();
+
 
         SpinnerAdapter sadapt = ArrayAdapter.createFromResource(this,
                 R.array.action_list,
@@ -258,7 +238,50 @@ public class PageListActivity extends FragmentActivity implements
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
         Network.init(this);
+        if (mTwoPane) {
+            if (notifpos > -1) {
+                Bundle arguments = new Bundle();
 
+                arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(notifpos));
+                arguments.putInt(PageDetailFragment.pos, notifpos);
+                PageDetailFragment fragger = new PageDetailFragment();
+                fragger.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.page_detail_container, fragger).commit();
+            }
+        } else {
+            if (notifpos > -1) {
+                Intent detailIntent = new Intent(this, PageDetailActivity.class);
+                DummyContent.setReadActive(true, notifpos);
+                fragment.notifyupdate();
+                detailIntent.putExtra(PageDetailFragment.link,
+                        DummyContent.getActiveLink(notifpos));
+                detailIntent.putExtra(PageDetailFragment.pos, notifpos);
+                startActivity(detailIntent);
+            }
+        }
+
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        if (mTwoPane) {
+            if (intent.hasExtra("showfield")) {
+                int position = getIntent().getIntExtra("showfield", 0);
+                if (position != -1) {
+                    notifpos = position;
+
+                }
+            }
+        } else {
+            if (intent.hasExtra("showfield")) {
+                int position = getIntent().getIntExtra("showfield", 0);
+                if (position != -1) {
+                    notifpos = position;
+
+                }
+            }
+        }
     }
 
     private void reg() {
@@ -346,6 +369,22 @@ public class PageListActivity extends FragmentActivity implements
     public void fragmentlist(PageListFragment frag) {
         // TODO Auto-generated method stub
         this.fragment = frag;
+    }
+
+    @Override
+    public void onViewCreated() {
+        if (mTwoPane) {
+            if (notifpos > -1) {
+                Bundle arguments = new Bundle();
+
+                arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(notifpos));
+                arguments.putInt(PageDetailFragment.pos, notifpos);
+                PageDetailFragment fragger = new PageDetailFragment();
+                fragger.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.page_detail_container, fragger).commit();
+            }
+        }
     }
 
     public void update() {

@@ -112,7 +112,7 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
         Intent intent = new Intent("com.sst.announcements.UPDATED");
         intent.putExtra("new", counter.toString());
         if (last != null) {
-            intent.putExtra("showfield", last.author);
+            intent.putExtra("showfield", last.title);
         }
         activity.sendBroadcast(intent);
     }

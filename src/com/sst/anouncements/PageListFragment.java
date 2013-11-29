@@ -14,7 +14,7 @@ import com.sst.anouncements.dummy.DummyContent;
 
 import java.util.ArrayList;
 
-public class PageListFragment extends ListFragment {
+public class PageListFragment extends ListFragment implements DummyContent.Notify {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     private Callbacks mCallbacks = sDummyCallbacks;
@@ -30,6 +30,8 @@ public class PageListFragment extends ListFragment {
         public void onItemSelected(String id, int position);
 
         public void fragmentlist(PageListFragment frag);
+
+        public void onViewCreated();
     }
 
     public void registerlistener(Callbacks callback) {
@@ -44,6 +46,11 @@ public class PageListFragment extends ListFragment {
         @Override
         public void fragmentlist(PageListFragment frag) {
             // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onViewCreated() {
 
         }
     };
@@ -69,6 +76,8 @@ public class PageListFragment extends ListFragment {
             setActivatedPosition(savedInstanceState
                     .getInt(STATE_ACTIVATED_POSITION));
         }
+        mCallbacks.onViewCreated();
+
     }
 
     @Override
@@ -84,7 +93,7 @@ public class PageListFragment extends ListFragment {
             throw new IllegalStateException(
                     "Activity must implement fragment's callbacks.");
         }
-
+        DummyContent.addadapter(this);
         mCallbacks = (Callbacks) activity;
         mCallbacks.fragmentlist(this);
     }
@@ -140,7 +149,6 @@ public class PageListFragment extends ListFragment {
 
     public void notifyupdate() {
         //TODO change dummycontent so that ITEM reflects changes to ITEMS
-        DummyContent.setContent(cat);
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }

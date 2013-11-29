@@ -103,7 +103,7 @@ public class UpdateService extends Service {
         PowerManager mgr = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
         wakeLock.acquire();
-        String URL = "http://studentsblog.sst.edu.sg/feeds/posts/default";
+        String URL = "http://announcementstest.blogspot.com/feeds/posts/default";
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr
@@ -201,10 +201,11 @@ public class UpdateService extends Service {
         Intent resultIntent = new Intent(this, PageListActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("update", "no");
-        resultIntent.putExtras(bundle);
         if (pos != -1)
-            resultIntent.putExtra("showfield", pos);
-        PendingIntent intent1 = PendingIntent.getActivity(this, 0, resultIntent, 0);
+            bundle.putInt("showfield", pos);
+        resultIntent.putExtras(bundle);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent1 = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 // The stack builder object will contain an artificial back stack for the
 // started Activity.
 // This ensures that navigating backward from the Activity leads out of

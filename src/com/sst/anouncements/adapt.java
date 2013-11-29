@@ -101,6 +101,11 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
                 // TODO Auto-generated method stub
 
             }
+
+            @Override
+            public void onViewCreated() {
+            }
+
         };
 
         public textHold() {
