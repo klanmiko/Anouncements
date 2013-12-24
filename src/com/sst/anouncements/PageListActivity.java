@@ -96,7 +96,7 @@ public class PageListActivity extends FragmentActivity implements
 
         if (wifiConnected || mobileConnected) {
             xml
-                    .execute("http://announcementstest.blogspot.com/feeds/posts/default");
+                    .execute("http://studentsblog.sst.edu.sg//feeds/posts/default");
         } else {
             Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT).show();
 
@@ -121,7 +121,7 @@ public class PageListActivity extends FragmentActivity implements
 
         if (wifiConnected || mobileConnected) {
             new GetXml(this.getApplicationContext())
-                    .execute("http://announcementstest.blogspot.com/feeds/posts/default");
+                    .execute("http://studentsblog.sst.edu.sg//feeds/posts/default");
         }
 
 

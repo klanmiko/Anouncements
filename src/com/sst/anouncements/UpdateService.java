@@ -103,7 +103,7 @@ public class UpdateService extends Service {
         PowerManager mgr = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
         wakeLock.acquire();
-        String URL = "http://announcementstest.blogspot.com/feeds/posts/default";
+        String URL = "http://studentsblog.sst.edu.sg//feeds/posts/default";
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr
