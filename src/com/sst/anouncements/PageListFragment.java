@@ -31,7 +31,7 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
 
         public void fragmentlist(PageListFragment frag);
 
-        public void onViewCreated();
+        //public void onViewCreated();
     }
 
     public void registerlistener(Callbacks callback) {
@@ -49,10 +49,7 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
 
         }
 
-        @Override
-        public void onViewCreated() {
-
-        }
+        
     };
 
     public PageListFragment() {
@@ -76,7 +73,6 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
             setActivatedPosition(savedInstanceState
                     .getInt(STATE_ACTIVATED_POSITION));
         }
-        mCallbacks.onViewCreated();
 
     }
 

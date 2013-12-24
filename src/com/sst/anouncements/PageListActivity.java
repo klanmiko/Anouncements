@@ -238,51 +238,10 @@ public class PageListActivity extends FragmentActivity implements
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(sadapt, mOnNavigationListener);
         Network.init(this);
-        if (mTwoPane) {
-            if (notifpos > -1) {
-                Bundle arguments = new Bundle();
 
-                arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(notifpos));
-                arguments.putInt(PageDetailFragment.pos, notifpos);
-                PageDetailFragment fragger = new PageDetailFragment();
-                fragger.setArguments(arguments);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.page_detail_container, fragger).commit();
-            }
-        } else {
-            if (notifpos > -1) {
-                Intent detailIntent = new Intent(this, PageDetailActivity.class);
-                DummyContent.setReadActive(true, notifpos);
-                fragment.notifyupdate();
-                detailIntent.putExtra(PageDetailFragment.link,
-                        DummyContent.getActiveLink(notifpos));
-                detailIntent.putExtra(PageDetailFragment.pos, notifpos);
-                startActivity(detailIntent);
-            }
-        }
 
     }
 
-    @Override
-    public void onNewIntent(Intent intent) {
-        if (mTwoPane) {
-            if (intent.hasExtra("showfield")) {
-                int position = getIntent().getIntExtra("showfield", 0);
-                if (position != -1) {
-                    notifpos = position;
-
-                }
-            }
-        } else {
-            if (intent.hasExtra("showfield")) {
-                int position = getIntent().getIntExtra("showfield", 0);
-                if (position != -1) {
-                    notifpos = position;
-
-                }
-            }
-        }
-    }
 
     private void reg() {
         frag.registerlistener(this);
@@ -371,21 +330,6 @@ public class PageListActivity extends FragmentActivity implements
         this.fragment = frag;
     }
 
-    @Override
-    public void onViewCreated() {
-        if (mTwoPane) {
-            if (notifpos > -1) {
-                Bundle arguments = new Bundle();
-
-                arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(notifpos));
-                arguments.putInt(PageDetailFragment.pos, notifpos);
-                PageDetailFragment fragger = new PageDetailFragment();
-                fragger.setArguments(arguments);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.page_detail_container, fragger).commit();
-            }
-        }
-    }
 
     public void update() {
         fragment.hideLoad();

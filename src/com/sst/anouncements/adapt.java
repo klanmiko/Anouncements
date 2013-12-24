@@ -102,9 +102,6 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
 
             }
 
-            @Override
-            public void onViewCreated() {
-            }
 
         };
 
