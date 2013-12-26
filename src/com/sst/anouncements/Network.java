@@ -33,5 +33,6 @@ public class Network {
         }
         return false;
     }
+    //TODO add eevent listeners for network connection changes
 
 }

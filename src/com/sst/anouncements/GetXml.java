@@ -106,7 +106,7 @@ class GetXml extends AsyncTask<String, Void, List<Announcement>> {
         intent.putExtra("update", "post");
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
 
-
+        //TODO Merge this with LOADXML
     }
 
 }
