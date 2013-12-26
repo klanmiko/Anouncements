@@ -117,6 +117,7 @@ public class DummyContent {
 
             }
         }
+
         for (Notify notify : adapters) {
             notify.notifyupdate();
         }

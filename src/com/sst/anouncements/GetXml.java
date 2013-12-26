@@ -1,13 +1,9 @@
 package com.sst.anouncements;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.sst.anouncements.dummy.DummyContent;
 import com.sst.anouncements.dummy.DummyContent.DummyItem;
@@ -105,6 +101,7 @@ class GetXml extends AsyncTask<String, Void, List<Announcement>> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        DummyContent.setContent("All");
         Intent intent = new Intent("com.sst.announcements.UPDATE");
         intent.putExtra("update", "post");
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
