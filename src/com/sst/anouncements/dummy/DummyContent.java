@@ -11,10 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class DummyContent {
     public static class DateSave implements Serializable {
@@ -73,7 +71,6 @@ public class DummyContent {
     private static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     //public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
     private static List<Integer> POINTER = new ArrayList<Integer>();
-    private static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
     private static String cat = "All";
 
     public static interface Notify {
@@ -121,7 +118,6 @@ public class DummyContent {
         for (Notify notify : adapters) {
             notify.notifyupdate();
         }
-        ITEM_MAP.put(item.id, item);
     }
 
     /*public static List<DummyItem> getContent() {
@@ -169,7 +165,6 @@ public class DummyContent {
         f = new FileOutputStream(out);
         ObjectOutputStream o;
         o = new ObjectOutputStream(f);
-        o.writeObject(ITEM_MAP);
         o.writeObject(ITEMS);
         o.close();
     }
@@ -191,7 +186,6 @@ public class DummyContent {
             File out = new File(context.getCacheDir(), "pages1.6");
             FileInputStream f = new FileInputStream(out);
             ObjectInputStream o = new ObjectInputStream(f);
-            ITEM_MAP = (Map<String, DummyItem>) o.readObject();
             ITEMS = (List<DummyItem>) o.readObject();
             o.close();
         } catch (FileNotFoundException e) {
@@ -253,7 +247,6 @@ public class DummyContent {
         }
         ITEMS.clear();
         POINTER.clear();
-        ITEM_MAP.clear();
         for (Notify notify : adapters) {
             notify.notifyupdate();
         }
