@@ -2,6 +2,8 @@ package com.sst.anouncements.dummy;
 
 import android.content.Context;
 
+import com.sst.anouncements.R;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,70 +17,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class DummyContent {
-    public static class DateSave implements Serializable {
-        public final int day, month, year;
-
-        public DateSave(int day, int month, int year) {
-            this.day = day;
-            this.month = month;
-            this.year = year;
-        }
-
-    }
-
-    public static class DummyItem implements Serializable {
-
-        public final String id;
-        public final String content;
-        public final String description;
-        public final String link;
-        public final String author;
-        public boolean read = false;
-
-
-        public DummyItem(String id, String content, String description,
-                         String link, String author) {
-            this.id = id;
-            this.content = content;
-            this.description = description;
-            this.link = link;
-            this.author = author;
-        }
-
-
-        @Override
-        public String toString() {
-            return content;
-        }
-
-        @Override
-        public boolean equals(Object a) {
-            if (a instanceof DummyItem) {
-                DummyItem item = (DummyItem) a;
-                if (this.content.equals(item.content) && this.description.equals(item.description) && this.link.equals(item.link) && this.author.equals(item.author)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-
-
-        }
-    }
-
+    private static String[] categories;
     private static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     //public static List<DummyItem> ITEM = new ArrayList<DummyItem>();
     private static List<Integer> POINTER = new ArrayList<Integer>();
     private static String cat = "All";
-
-    public static interface Notify {
-        public void notifyupdate();
-    }
-
-    static {
-    }
+    private static ArrayList<Notify> adapters = new ArrayList<Notify>();
 
     public static boolean contains(DummyItem item) {
         if (ITEMS.contains(item))
@@ -86,8 +30,6 @@ public class DummyContent {
         else
             return false;
     }
-
-    private static ArrayList<Notify> adapters = new ArrayList<Notify>();
 
     public static void addItem(DummyItem item) {
 
@@ -120,36 +62,31 @@ public class DummyContent {
         }
     }
 
-    /*public static List<DummyItem> getContent() {
-        return ITEM;
-    }*/
-
-    public static void setContent(String cat) {
+    public static void setContent(String cata) {
         //List<DummyItem> me = new ArrayList<DummyItem>();
         POINTER = new ArrayList<Integer>();
         for (DummyItem item : ITEMS) {
-
-            if (cat.equalsIgnoreCase("All")) {
+            if (cata.equalsIgnoreCase("All")) {
                 //me.add(item);
                 POINTER.add(ITEMS.indexOf(item));
-            } else if (cat.equalsIgnoreCase("General")) {
-                if (!item.content.toLowerCase(Locale.getDefault()).contains(
-                        "Info Hub".toLowerCase(Locale.getDefault())))
+            } else if (cata.equalsIgnoreCase("General")) {
+                for (String catb : categories) {
+                    if (!item.content.toLowerCase(Locale.getDefault()).contains(
+                            catb.toLowerCase(Locale.getDefault())))
+                        continue;
 
-                {
-                    //me.add(item);
                     POINTER.add(ITEMS.indexOf(item));
                 }
             } else {
                 if (item.content.toLowerCase(Locale.getDefault()).contains(
-                        cat.toLowerCase(Locale.getDefault()))) {
+                        cata.toLowerCase(Locale.getDefault()))) {
                     //me.add(item);
                     POINTER.add(ITEMS.indexOf(item));
                 }
             }
 
         }
-        cat = "All";
+        cat = cata;
         //ITEM = me;
         // me = null;
         for (Notify notify : adapters) {
@@ -191,13 +128,17 @@ public class DummyContent {
         } catch (FileNotFoundException e) {
             invalidate(context);
         }
+        categories = context.getResources().getStringArray(R.array.action_list);
         DummyContent.setContent("All");
     }
+
+    /*public static List<DummyItem> getContent() {
+        return ITEM;
+    }*/
 
     public static void addadapter(Notify notify) {
         adapters.add(notify);
     }
-
 
     public static String getActiveAuthor(int pos) {
         return ITEMS.get(POINTER.get(pos)).author;
@@ -275,6 +216,66 @@ public class DummyContent {
         o = new ObjectOutputStream(f);
         o.writeObject(save);
         o.close();
+    }
+
+    public static interface Notify {
+        public void notifyupdate();
+    }
+
+    static {
+    }
+
+    public static class DateSave implements Serializable {
+        public final int day, month, year;
+
+        public DateSave(int day, int month, int year) {
+            this.day = day;
+            this.month = month;
+            this.year = year;
+        }
+
+    }
+
+    public static class DummyItem implements Serializable {
+
+        public final String id;
+        public final String content;
+        public final String description;
+        public final String link;
+        public final String author;
+        public boolean read = false;
+
+
+        public DummyItem(String id, String content, String description,
+                         String link, String author) {
+            this.id = id;
+            this.content = content;
+            this.description = description;
+            this.link = link;
+            this.author = author;
+        }
+
+
+        @Override
+        public String toString() {
+            return content;
+        }
+
+        @Override
+        public boolean equals(Object a) {
+            if (a instanceof DummyItem) {
+                DummyItem item = (DummyItem) a;
+                if (this.content.equals(item.content) && this.description.equals(item.description) && this.link.equals(item.link) && this.author.equals(item.author)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+
+
+        }
     }
 
     //TODO CHANGE TO A SQL BASED DATA TABLE SOURCE SO THAT WE CAN USE SERVER SQL
