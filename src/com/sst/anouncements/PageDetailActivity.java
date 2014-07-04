@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-public class PageDetailActivity extends FragmentActivity implements pagerfrag.Callbacks {
+public class PageDetailActivity extends FragmentActivity {
     private Activity parent;
-    private pagerfrag fragment;
+    private PageDetailFragment fragment;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
@@ -22,12 +22,11 @@ public class PageDetailActivity extends FragmentActivity implements pagerfrag.Ca
         getActionBar().setDisplayHomeAsUpEnabled(true);
         parent = this.getParent();
         if (parent instanceof PageListActivity) {
-            fragment.registerlistener((PageListActivity) parent);
         }
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putInt(PageDetailFragment.pos, this.getIntent().getIntExtra(PageDetailFragment.pos, 0));
-            fragment = new pagerfrag();
+            fragment = new PageDetailFragment();
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.page_detail_container, fragment).commit();
@@ -45,14 +44,5 @@ public class PageDetailActivity extends FragmentActivity implements pagerfrag.Ca
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void fragment(pagerfrag frag) {
-    }
-
-    @Override
-    public void onItemSelected(int i) {
-
     }
 }

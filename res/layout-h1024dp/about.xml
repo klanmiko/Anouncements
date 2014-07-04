@@ -20,13 +20,14 @@
         android:src="@drawable/inclogo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/abouttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:focusableInTouchMode="false"
         android:padding="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

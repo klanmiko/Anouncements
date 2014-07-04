@@ -25,6 +25,19 @@ class GetXml extends AsyncTask<String, Void, List<Announcement>> {
         this.activity = context;
     }
 
+    private static InputStream downloadUrl(String url) throws IOException {
+        // TODO Auto-generated method stub
+        URL uRL = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) uRL.openConnection();
+        conn.setReadTimeout(10000 /* milliseconds */);
+        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        // Starts the query
+        conn.connect();
+        return conn.getInputStream();
+    }
+
     @Override
     protected void onPreExecute() {
 
@@ -74,38 +87,28 @@ class GetXml extends AsyncTask<String, Void, List<Announcement>> {
 
     }
 
-    private static InputStream downloadUrl(String url) throws IOException {
-        // TODO Auto-generated method stub
-        URL uRL = new URL(url);
-        HttpURLConnection conn = (HttpURLConnection) uRL.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
-        conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-        // Starts the query
-        conn.connect();
-        return conn.getInputStream();
-    }
-
     @Override
     protected void onPostExecute(List<Announcement> result) {
-        Integer counter = 0;
-        assert result != null;
-        for (Announcement announ : result) {
-            DummyContent.addItem(new DummyItem(counter.toString(),
-                    announ.title, announ.desc, announ.link, announ.author));
-            counter++;
-        }
         try {
-            DummyContent.dump(activity);
-        } catch (IOException e) {
+            Integer counter = 0;
+            assert result != null;
+            for (Announcement announ : result) {
+                DummyContent.addItem(new DummyItem(counter.toString(),
+                        announ.title, announ.desc, announ.link, announ.author));
+                counter++;
+            }
+            try {
+                DummyContent.dump(activity);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DummyContent.setContent("All");
+            Intent intent = new Intent("com.sst.announcements.UPDATE");
+            intent.putExtra("update", "post");
+            LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        DummyContent.setContent("All");
-        Intent intent = new Intent("com.sst.announcements.UPDATE");
-        intent.putExtra("update", "post");
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
-
         //TODO Merge this with LOADXML
     }
 

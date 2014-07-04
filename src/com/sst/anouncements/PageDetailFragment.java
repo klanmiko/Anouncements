@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import com.sst.anouncements.dummy.DummyContent;
 
-class PageDetailFragment extends Fragment {
+public class PageDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
-    private static String URL;
     public static final String link = "link";
     public static final String pos = "position";
+    private static String URL;
     private boolean wifiConnected = false;
 
     public PageDetailFragment() {

@@ -29,6 +29,20 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
 
     }
 
+    private static InputStream downloadUrl(String url) throws IOException {
+        // TODO Auto-generated method stub
+        URL uRL = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) uRL.openConnection();
+        conn.setReadTimeout(10000 /* milliseconds */);
+        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        // Starts the query
+        conn.connect();
+        InputStream is = conn.getInputStream();
+        return is;
+    }
+
     @Override
     protected void onPreExecute() {
 
@@ -58,7 +72,6 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
         return null;
     }
 
-
     private List<Announcement> loadXml(String url)
             throws XmlPullParserException, IOException {
         InputStream stream = null;
@@ -76,45 +89,35 @@ class XmlLoad extends AsyncTask<String, Void, List<Announcement>> {
 
     }
 
-    private static InputStream downloadUrl(String url) throws IOException {
-        // TODO Auto-generated method stub
-        URL uRL = new URL(url);
-        HttpURLConnection conn = (HttpURLConnection) uRL.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
-        conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-        // Starts the query
-        conn.connect();
-        InputStream is = conn.getInputStream();
-        return is;
-    }
-
     @Override
     protected void onPostExecute(List<Announcement> result) {
-        Integer counter = 0;
-        assert result != null;
-        Announcement last = null;
-        for (Announcement announ : result) {
-            DummyContent.addItem(new DummyContent.DummyItem(counter.toString(),
-                    announ.title, announ.desc, announ.link, announ.author));
-            counter++;
-            last = announ;
-        }
         try {
-            DummyContent.dump(activity);
-        } catch (IOException e) {
-            e.printStackTrace();
+            Integer counter = 0;
+            assert result != null;
+            Announcement last = null;
+            for (Announcement announ : result) {
+                DummyContent.addItem(new DummyContent.DummyItem(counter.toString(),
+                        announ.title, announ.desc, announ.link, announ.author));
+                counter++;
+                last = announ;
+            }
+            try {
+                DummyContent.dump(activity);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DummyContent.setContent("All");
+            Intent intent2 = new Intent("com.sst.announcements.UPDATE");
+            intent2.putExtra("update", "post");
+            activity.sendBroadcast(intent2);
+            Intent intent = new Intent("com.sst.announcements.UPDATED");
+            intent.putExtra("new", counter.toString());
+            if (last != null) {
+                intent.putExtra("showfield", last.title);
+            }
+            activity.sendBroadcast(intent);
+        } catch (NullPointerException w) {
+            w.printStackTrace();
         }
-        DummyContent.setContent("All");
-        Intent intent2 = new Intent("com.sst.announcements.UPDATE");
-        intent2.putExtra("update", "post");
-        activity.sendBroadcast(intent2);
-        Intent intent = new Intent("com.sst.announcements.UPDATED");
-        intent.putExtra("new", counter.toString());
-        if (last != null) {
-            intent.putExtra("showfield", last.title);
-        }
-        activity.sendBroadcast(intent);
     }
 }
