@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -12,21 +12,22 @@
         android:id="@+id/imageView"
         android:layout_width="fill_parent"
         android:layout_height="325dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/inclogo" />
 
     <TextView
         android:id="@+id/abouttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView"
         android:layout_gravity="center"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:focusableInTouchMode="false"
         android:padding="5dp"
         android:paddingLeft="15dp"
@@ -35,17 +36,40 @@
         android:text="@string/about"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="true"
-        android:textSize="40sp" />
+        android:textSize="50sp" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/abouttext"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:adjustViewBounds="true"
         android:src="@drawable/incognito" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="500dp"
+        android:adjustViewBounds="false"
+        android:src="@drawable/mesmall" />
+
+    <TextView
+        android:id="@+id/ragul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="202dp"
+        android:text="Sample Text About Ragu Sauce"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="50sp" />
+
+</RelativeLayout>
