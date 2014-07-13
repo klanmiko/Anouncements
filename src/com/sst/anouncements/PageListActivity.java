@@ -30,42 +30,12 @@ import java.io.IOException;
 public class PageListActivity extends FragmentActivity implements
         PageListFragment.Callbacks, UpdateService.Update, pagerfrag.Callbacks {
 
-    private boolean mTwoPane;
-    private boolean wifiConnected = false;
-    private boolean mobileConnected = false;
-    private boolean first = true;
-    private boolean load = true;
-    private PageListFragment fragment;
-    private pagerfrag frag;
-    private UpdateService service;
-    private int notifpos = -1;
-
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private pageradapter mPagerAdapter;
-    // --Commented out by Inspection (6/15/13 9:03 PM):private UpdateService service;
-    private final ServiceConnection updateservice = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            UpdateService.ActiveBind bind = (UpdateService.ActiveBind) iBinder;
-            service = bind.getUpdateService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
-
     private final BroadcastReceiver invalidreceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             loadPage();
         }
     };
-
-
     private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -81,6 +51,32 @@ public class PageListActivity extends FragmentActivity implements
 
         }
     };
+    private boolean mTwoPane;
+    private boolean wifiConnected = false;
+    private boolean mobileConnected = false;
+    private boolean first = true;
+    private boolean load = true;
+    private PageListFragment fragment;
+    private pagerfrag frag;
+    private UpdateService service;
+    // --Commented out by Inspection (6/15/13 9:03 PM):private UpdateService service;
+    private final ServiceConnection updateservice = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            UpdateService.ActiveBind bind = (UpdateService.ActiveBind) iBinder;
+            service = bind.getUpdateService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
+    private int notifpos = -1;
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private pageradapter mPagerAdapter;
 
     @Override
     public void onStart() {
@@ -195,6 +191,13 @@ public class PageListActivity extends FragmentActivity implements
             ((PageListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.page_list))
                     .setActivateOnItemClick(true);
+            Bundle arguments = new Bundle();
+            arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(0));
+            arguments.putInt(PageDetailFragment.pos, 0);
+            PageDetailFragment fragger = new PageDetailFragment();
+            fragger.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.page_detail_container, fragger).commit();
 
 
         }

@@ -13,11 +13,12 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/abouttext"
+        android:layout_alignBottom="@+id/imageView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
-        android:src="@drawable/mesmall" />
+        android:src="@drawable/mesmall"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/ragul"
@@ -69,5 +70,71 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="false"
         android:textSize="40sp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ragul"
+        android:src="@drawable/klan"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/imageView3"
+        android:layout_centerVertical="true"
+        android:src="@drawable/dieklan"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ragulcool"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/swag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/abouttext"
+        android:layout_centerVertical="true"
+        android:text="#SWAG"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="100sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/yolo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/klan"
+        android:layout_centerVertical="true"
+        android:text="#YOLO"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="200sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/klan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imageView6"
+        android:text="Sample text about how Kaelan is so awesome and stuff I don't really care about whta is in this bview really i don't you have to be kidding me"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="40sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

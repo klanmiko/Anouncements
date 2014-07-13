@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/abouttext"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:src="@drawable/mesmall"
@@ -25,19 +24,21 @@
         android:id="@+id/ragul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="89dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/abouttext"
+        android:layout_marginLeft="20dp"
         android:text="Sample Text About Ragu Sauce"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30sp" />
+        android:textSize="50sp" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/imageView"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center"
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
@@ -47,9 +48,8 @@
         android:id="@+id/imageView"
         android:layout_width="248dp"
         android:layout_height="200dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/inclogo" />
 
@@ -57,8 +57,8 @@
         android:id="@+id/abouttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:autoText="false"
         android:padding="5dp"
@@ -68,12 +68,13 @@
         android:text="@string/about"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="false"
-        android:textSize="20sp" />
+        android:textSize="40sp" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/abouttext"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -84,11 +85,11 @@
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/abouttext"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
+        android:adjustViewBounds="false"
         android:src="@drawable/dieklan"
         android:visibility="invisible" />
 
@@ -119,11 +120,11 @@
         android:id="@+id/yolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ragul"
+        android:layout_alignBottom="@+id/imageView6"
         android:layout_centerHorizontal="true"
         android:text="#YOLO"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="100sp"
+        android:textSize="200sp"
         android:textStyle="bold"
         android:visibility="invisible" />
 
@@ -131,14 +132,14 @@
         android:id="@+id/klan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ragul"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_alignBottom="@+id/imageView6"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="Sample text about how Kaelan is so awesome and stuff I don't really care about whta is in this bview really i don't you have to be kidding me"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textStyle="normal"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
 </RelativeLayout>
