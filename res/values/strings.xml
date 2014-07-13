@@ -8,5 +8,12 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="about">Developed by Incognito Dev, a subsidiary of SST Inc.</string>
+    <string name="klan">Kaelan Mikowicz\n\n
+    -Development Lead\n\n
+    -Project Lead\n\n
+    -Programming Lead</string>
+    <string name="ragul">Ragul Balaji\n\n
+    -Research Lead\n\n
+    -Design Lead</string>
 
 </resources>

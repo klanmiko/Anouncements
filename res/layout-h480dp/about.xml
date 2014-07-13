@@ -20,18 +20,6 @@
         android:src="@drawable/mesmall"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/ragul"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/abouttext"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/imageView3"
-        android:text="Sample Text About Ragu Sauce"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="50sp" />
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -130,11 +118,23 @@
         android:id="@+id/klan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/swag"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/imageView6"
-        android:text="Sample text about how Kaelan is so awesome and stuff I don't really care about whta is in this bview really i don't you have to be kidding me"
+        android:text="@string/klan"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="40sp"
+        android:textSize="50sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/ragul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/yolo"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:text="@string/ragul"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp"
         android:visibility="invisible" />
 
 </RelativeLayout>

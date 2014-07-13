@@ -20,6 +20,14 @@ android {
         minSdkVersion 14
         targetSdkVersion 19
     }
+    buildTypes {
+        release {
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),  \
+                           'proguard-project.txt'
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

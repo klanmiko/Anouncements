@@ -15,7 +15,7 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class com.sst.anouncments.PageDetailFragment {
-#   public *;
-#}
+-keepclassmembers class com.sst.anouncments.PageDetailFragment {
+   public *;
+}
 -keep public class * extends android.support.v4.app.Fragment
