@@ -5,16 +5,27 @@
     android:layout_height="match_parent">
 
     <PreferenceCategory
-        android:title="Data Usage"
-        android:padding="6dp">
+        android:padding="6dp"
+        android:title="Data Usage">
 
         <ListPreference
             android:id="@+id/listpref"
-            android:title="Set Refresh Rate"
-            android:key="pref_key_refresh"
+            android:defaultValue="1440"
             android:entries="@array/syncfreq"
             android:entryValues="@array/syncfreqvalue"
-            android:defaultValue="1440"></ListPreference>
+            android:key="pref_key_refresh"
+            android:title="Set Refresh Rate"></ListPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:padding="6dp"
+        android:title="Display">
+
+        <CheckBoxPreference
+            android:id="@+id/pagepref"
+            android:defaultValue="true"
+            android:key="pref_offlinemode"
+            android:title="Open items in browser"></CheckBoxPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>

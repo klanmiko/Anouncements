@@ -24,6 +24,9 @@ public class DummyContent {
     private static String cat = "All";
     private static ArrayList<Notify> adapters = new ArrayList<Notify>();
 
+    static {
+    }
+
     public static boolean contains(DummyItem item) {
         if (ITEMS.contains(item))
             return true;
@@ -40,14 +43,14 @@ public class DummyContent {
             POINTER.add(ITEMS.indexOf(item));
 
         } else if (cat.equalsIgnoreCase("General")) {
-            if (!item.content.toLowerCase(Locale.getDefault()).contains(
-                    "Info Hub".toLowerCase(Locale.getDefault())))
+            for (String catb : categories) {
+                if (!item.content.toLowerCase(Locale.getDefault()).contains(
+                        catb.toLowerCase(Locale.getDefault())))
+                    continue;
 
-            {
-                //ITEM.add(item);
                 POINTER.add(ITEMS.indexOf(item));
-
             }
+
         } else {
             if (item.content.toLowerCase(Locale.getDefault()).contains(
                     cat.toLowerCase(Locale.getDefault()))) {
@@ -71,10 +74,10 @@ public class DummyContent {
                 POINTER.add(ITEMS.indexOf(item));
             } else if (cata.equalsIgnoreCase("General")) {
                 for (String catb : categories) {
-                    if (!item.content.toLowerCase(Locale.getDefault()).contains(
-                            catb.toLowerCase(Locale.getDefault())))
-                        continue;
-
+                    if (item.content.toLowerCase(Locale.getDefault()).contains(
+                            catb.toLowerCase(Locale.getDefault()))) {
+                        break;
+                    }
                     POINTER.add(ITEMS.indexOf(item));
                 }
             } else {
@@ -117,6 +120,10 @@ public class DummyContent {
         return -1;
     }
 
+    /*public static List<DummyItem> getContent() {
+        return ITEM;
+    }*/
+
     public static void load(Context context) throws IOException, ClassNotFoundException {
 
         try {
@@ -128,13 +135,11 @@ public class DummyContent {
         } catch (FileNotFoundException e) {
             invalidate(context);
         }
-        categories = context.getResources().getStringArray(R.array.action_list);
+        String[] temp = context.getResources().getStringArray(R.array.action_list);
+        categories = new String[temp.length - 2];
+        System.arraycopy(temp, 2, categories, 0, temp.length - 2);
         DummyContent.setContent("All");
     }
-
-    /*public static List<DummyItem> getContent() {
-        return ITEM;
-    }*/
 
     public static void addadapter(Notify notify) {
         adapters.add(notify);
@@ -220,9 +225,6 @@ public class DummyContent {
 
     public static interface Notify {
         public void notifyupdate();
-    }
-
-    static {
     }
 
     public static class DateSave implements Serializable {

@@ -3,10 +3,8 @@ package com.sst.anouncements;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
 
 /**
  * Created by eternitysst on 6/9/13.
@@ -30,7 +28,6 @@ public class SettingsFragment extends PreferenceActivity implements SharedPrefer
             connectionPref.setSummary(sharedPreferences.getString("pref_key_refresh", ""));
             Intent tent = new Intent("com.sst.anouncements.STARTUPDATE");
             this.sendBroadcast(tent);
-
         }
     }
 }

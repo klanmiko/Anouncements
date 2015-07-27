@@ -1,5 +1,7 @@
 package com.sst.anouncements;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,7 +44,9 @@ public class PageDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page_detail,
                 container, false);
-        if (wifiConnected) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean aBoolean = sharedPref.getBoolean("pref_offlinemode", true);
+        if (wifiConnected && !aBoolean) {
             if (URL != null) {
                 assert rootView != null;
                 WebView view = (WebView) rootView.findViewById(R.id.webView1);
@@ -50,7 +54,6 @@ public class PageDetailFragment extends Fragment {
                 WebSettings webSettings = view.getSettings();
                 webSettings.setJavaScriptEnabled(true);
                 view.loadUrl(URL);
-
             }
         } else {
             int position = getArguments().getInt(pos);
