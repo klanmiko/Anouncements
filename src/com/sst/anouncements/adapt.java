@@ -22,6 +22,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
         this.layoutResourceId = resource;
         this.context = context;
         this.fragment = fragment;
+        DummyContent.addadapter(this);
         // TODO Auto-generated constructor stub
     }
 
@@ -53,7 +54,7 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
             hold.desc = (TextView) v.findViewById(R.id.Desc);
             hold.name = (TextView) v.findViewById(R.id.Post);
             hold.author = (TextView) v.findViewById(R.id.author);
-            hold.position = position;
+            hold.positiona = position;
             if (hold.name != null) {
                 hold.name.setText(i.content);
                 if (!i.read) {
@@ -88,23 +89,21 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
         TextView desc;
         TextView name;
         TextView author;
-        int position;
+        int positiona;
         PageListFragment.Callbacks callback = new PageListFragment.Callbacks() {
             @Override
-            public void onItemSelected(String id, int position) {
-                name.setTypeface(null, Typeface.NORMAL);
-                DummyContent.setReadActive(true, position);
+            public void onItemSelected(String id, int position, View view) {
+                if (positiona == position) {
+                    name.setTypeface(null, Typeface.NORMAL);
+                    DummyContent.setReadActive(true, position);
+                }
             }
-
             @Override
             public void fragmentlist(PageListFragment frag) {
                 // TODO Auto-generated method stub
 
             }
-
-
         };
-
         public textHold() {
             fragment.registerlistener(callback);
         }

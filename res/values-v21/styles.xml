@@ -30,8 +30,20 @@
         </item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Apptheme
         </item>
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
 
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
 
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_transform
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_transform
+        </item>
     </style>
 
     <style name="ActionBar.Solid.Apptheme" parent="@android:style/Widget.Material.Light.ActionBar.Solid">

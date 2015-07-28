@@ -14,6 +14,7 @@
             android:entries="@array/syncfreq"
             android:entryValues="@array/syncfreqvalue"
             android:key="pref_key_refresh"
+            android:persistent="true"
             android:title="Set Refresh Rate"></ListPreference>
     </PreferenceCategory>
 
@@ -25,7 +26,8 @@
             android:id="@+id/pagepref"
             android:defaultValue="true"
             android:key="pref_offlinemode"
-            android:title="Open items in browser"></CheckBoxPreference>
+            android:persistent="true"
+            android:title="Offline mode"></CheckBoxPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>

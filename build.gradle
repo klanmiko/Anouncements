@@ -9,10 +9,18 @@ buildscript {
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.0.+'
+    compile 'com.android.support:appcompat-v7:22.2.1'
 }
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'announcements'
+            keyPassword 'cP26hat'
+            storeFile file('/Users/eternitysst/keyinc')
+            storePassword 'aureliusyeo'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion '22.0.1'
     defaultConfig {
@@ -22,8 +30,8 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),    \
-                             'proguard-project.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),      \
+                               'proguard-project.txt'
         }
     }
     sourceSets {
@@ -40,5 +48,8 @@ android {
         instrumentTest.setRoot('tests')
     }
     productFlavors {
+    }
+    dexOptions {
+        incremental true
     }
 }

@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:transitionName="titletrans" />
 
 
     <TextView
@@ -21,19 +22,19 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
+        android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
         android:textAppearance="?android:attr/textAppearanceSmall"
-
-        android:id="@+id/author"
-        android:layout_gravity="left|bottom" />
+        android:transitionName="authortrans" />
 
     <TextView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
 
-        android:id="@+id/date"
-        android:layout_gravity="right|bottom" />
+        android:layout_gravity="right|bottom"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </LinearLayout>

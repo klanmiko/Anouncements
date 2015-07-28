@@ -1,46 +1,29 @@
 package com.sst.anouncements;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sst.anouncements.dummy.DummyContent;
 
 import java.util.ArrayList;
 
-public class PageListFragment extends ListFragment implements DummyContent.Notify {
-
+public class PageListFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    private Callbacks mCallbacks = sDummyCallbacks;
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-    // --Commented out by Inspection (6/15/13 9:03 PM):public static final String category = "Category";
-    public String cat = "all";
-    private adapt adapter = null;
-    // --Commented out by Inspection (6/15/13 9:03 PM):public DataSetObserver observe;
-    ArrayList<Callbacks> callbacks = new ArrayList<Callbacks>();
-
-    public interface Callbacks {
-
-        public void onItemSelected(String id, int position);
-
-        public void fragmentlist(PageListFragment frag);
-
-        //public void onViewCreated();
-    }
-
-    public void registerlistener(Callbacks callback) {
-        callbacks.add(callback);
-    }
-
     private static final Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id, int position) {
+        public void onItemSelected(String id, int position, View view) {
         }
 
         @Override
@@ -49,10 +32,41 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
 
         }
 
-        
-    };
 
+    };
+    // --Commented out by Inspection (6/15/13 9:03 PM):public static final String category = "Category";
+    public String cat = "all";
+    SwipeRefreshLayout layout;
+    private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getStringExtra("update").equals("post")) {
+                layout.setRefreshing(false);
+            } else if (intent.getStringExtra("update").equals("pre")) {
+                layout.setRefreshing(true);
+            }
+        }
+    };
+    // --Commented out by Inspection (6/15/13 9:03 PM):public DataSetObserver observe;
+    ArrayList<Callbacks> callbacks = new ArrayList<Callbacks>();
+    private Callbacks mCallbacks = sDummyCallbacks;
+    private int mActivatedPosition = ListView.INVALID_POSITION;
+    private adapt adapter = null;
     public PageListFragment() {
+    }
+
+    @Override
+    public void onRefresh() {
+        if (Network.getNetwork()) {
+            GetXml xml = new GetXml(this.getActivity());
+            xml.execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
+        } else {
+            Toast.makeText(this.getActivity(), "Need Internet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void registerlistener(Callbacks callback) {
+        callbacks.add(callback);
     }
 
     @Override
@@ -62,12 +76,13 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
         adapter = new adapt(getActivity(),
                 com.sst.anouncements.R.layout.item_row, this);
         setListAdapter(adapter);
-
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        layout = (SwipeRefreshLayout) view.findViewById(R.id.container);
+        layout.setOnRefreshListener(this);
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState
@@ -89,7 +104,6 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
             throw new IllegalStateException(
                     "Activity must implement fragment's callbacks.");
         }
-        DummyContent.addadapter(this);
         mCallbacks = (Callbacks) activity;
         mCallbacks.fragmentlist(this);
     }
@@ -105,10 +119,10 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
                                 long id) {
         super.onListItemClick(listView, view, position, id);
         for (Callbacks callback : callbacks) {
-            callback.onItemSelected(DummyContent.getActiveId(position), position);
+            callback.onItemSelected(DummyContent.getActiveId(position), position, view);
         }
         mCallbacks.onItemSelected(DummyContent.getActiveId(position),
-                position);
+                position, view);
     }
 
     @Override
@@ -138,30 +152,41 @@ public class PageListFragment extends ListFragment implements DummyContent.Notif
     public void setCategory(String cat) {
         this.cat = cat;
         DummyContent.setContent(cat);
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    public void notifyupdate() {
-        //TODO change dummycontent so that ITEM reflects changes to ITEMS
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
     }
 
     public void showLoad() {
-        ProgressBar bar = (ProgressBar) getActivity().findViewById(R.id.progressbar);
-        TextView text = (TextView) getActivity().findViewById(R.id.progresstext);
-        bar.setVisibility(View.VISIBLE);
-        text.setVisibility(View.VISIBLE);
+        layout.setRefreshing(true);
     }
 
     public void hideLoad() {
-        ProgressBar bar = (ProgressBar) getActivity().findViewById(R.id.progressbar);
-        TextView text = (TextView) getActivity().findViewById(R.id.progresstext);
-        bar.setVisibility(View.GONE);
-        text.setVisibility(View.GONE);
+        layout.setRefreshing(false);
+    }
+
+    public void notifyupdate() {
+        adapter.notifyupdate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager brm = LocalBroadcastManager.getInstance(this.getActivity());
+        brm.registerReceiver(updatereceiver, new IntentFilter("com.sst.announcements.UPDATE"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager brm = LocalBroadcastManager.getInstance(this.getActivity());
+        brm.unregisterReceiver(updatereceiver);
+    }
+
+    public interface Callbacks {
+
+        void onItemSelected(String id, int position, View view);
+
+        void fragmentlist(PageListFragment frag);
+
+        //public void onViewCreated();
     }
 
 }

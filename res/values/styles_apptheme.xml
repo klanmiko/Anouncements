@@ -31,7 +31,6 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Apptheme
         </item>
 
-
     </style>
 
     <style name="ActionBar.Solid.Apptheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">

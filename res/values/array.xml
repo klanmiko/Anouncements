@@ -4,7 +4,17 @@
         <item>All</item>
         <item>General</item>
         <item>Info Hub</item>
-
+        <item>CCA</item>
+        <item>digital citizenship</item>
+        <item>GCP</item>
+        <item>Hackathon</item>
+        <item>Health Screening</item>
+        <item>National Day</item>
+        <item>S2 Subject Option</item>
+        <item>TDP</item>
+        <item>Temp-taking exercise</item>
+        <item>Timetable</item>
+        <item>Principal\'s Letter</item>
     </string-array>
     <string-array name="syncfreq">
         <item name="never">Manually</item>

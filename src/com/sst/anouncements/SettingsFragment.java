@@ -16,7 +16,7 @@ public class SettingsFragment extends PreferenceActivity implements SharedPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.layout.settings);
+        addPreferencesFromResource(R.xml.settings);
     }
 
     @Override
