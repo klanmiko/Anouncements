@@ -28,10 +28,7 @@ public class DummyContent {
     }
 
     public static boolean contains(DummyItem item) {
-        if (ITEMS.contains(item))
-            return true;
-        else
-            return false;
+        return ITEMS.contains(item);
     }
 
     public static void addItem(DummyItem item) {
@@ -44,13 +41,11 @@ public class DummyContent {
 
         } else if (cat.equalsIgnoreCase("General")) {
             for (String catb : categories) {
-                if (!item.content.toLowerCase(Locale.getDefault()).contains(
+                if (item.content.toLowerCase(Locale.getDefault()).contains(
                         catb.toLowerCase(Locale.getDefault())))
-                    continue;
-
-                POINTER.add(ITEMS.indexOf(item));
+                    return;
             }
-
+            POINTER.add(ITEMS.indexOf(item));
         } else {
             if (item.content.toLowerCase(Locale.getDefault()).contains(
                     cat.toLowerCase(Locale.getDefault()))) {
@@ -73,11 +68,14 @@ public class DummyContent {
                 //me.add(item);
                 POINTER.add(ITEMS.indexOf(item));
             } else if (cata.equalsIgnoreCase("General")) {
+                boolean found = false;
                 for (String catb : categories) {
                     if (item.content.toLowerCase(Locale.getDefault()).contains(
                             catb.toLowerCase(Locale.getDefault()))) {
-                        break;
+                        found = true;
                     }
+                }
+                if (!found) {
                     POINTER.add(ITEMS.indexOf(item));
                 }
             } else {
@@ -138,7 +136,6 @@ public class DummyContent {
         String[] temp = context.getResources().getStringArray(R.array.action_list);
         categories = new String[temp.length - 2];
         System.arraycopy(temp, 2, categories, 0, temp.length - 2);
-        DummyContent.setContent("All");
     }
 
     public static void addadapter(Notify notify) {
@@ -223,8 +220,8 @@ public class DummyContent {
         o.close();
     }
 
-    public static interface Notify {
-        public void notifyupdate();
+    public interface Notify {
+        void notifyupdate();
     }
 
     public static class DateSave implements Serializable {
@@ -267,11 +264,7 @@ public class DummyContent {
         public boolean equals(Object a) {
             if (a instanceof DummyItem) {
                 DummyItem item = (DummyItem) a;
-                if (this.content.equals(item.content) && this.description.equals(item.description) && this.link.equals(item.link) && this.author.equals(item.author)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return this.content.equals(item.content) && this.description.equals(item.description) && this.link.equals(item.link) && this.author.equals(item.author);
             } else {
                 return false;
             }

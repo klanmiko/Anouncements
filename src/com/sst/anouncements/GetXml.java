@@ -102,7 +102,6 @@ class GetXml extends AsyncTask<String, Void, List<Announcement>> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            DummyContent.setContent("All");
             Intent intent = new Intent("com.sst.announcements.UPDATE");
             intent.putExtra("update", "post");
             LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);

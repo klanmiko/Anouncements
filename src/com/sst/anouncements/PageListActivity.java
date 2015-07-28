@@ -137,19 +137,7 @@ public class PageListActivity extends FragmentActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            Bundle bundle = getIntent().getExtras();
-            if (bundle != null) {
-                if (bundle.getString("update").equals("no")) {
-                    this.load = false;
-                }
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-
         this.setContentView(R.layout.activity_page_list);
         Intent tent = new Intent("com.sst.anouncements.STARTUPDATE");
         this.sendBroadcast(tent);
