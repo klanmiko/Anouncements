@@ -126,6 +126,7 @@ public class UpdateService extends Service {
         }
         if (save != null) {
             GregorianCalendar cal = new GregorianCalendar(save.year, save.month, save.day);
+            cal.add(GregorianCalendar.MONTH, 12);
             Calendar calnow = GregorianCalendar.getInstance();
             if (calnow.after(cal)) {
                 DummyContent.invalidate(this.getApplicationContext());
@@ -136,8 +137,7 @@ public class UpdateService extends Service {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                cal.add(GregorianCalendar.MONTH, 1);
-                save = new DummyContent.DateSave(cal.get(GregorianCalendar.DAY_OF_MONTH), cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.YEAR));
+                save = new DummyContent.DateSave(calnow.get(GregorianCalendar.DAY_OF_MONTH), calnow.get(GregorianCalendar.MONTH), calnow.get(GregorianCalendar.YEAR));
                 try {
                     DummyContent.saveDate(save, this.getApplicationContext());
                 } catch (Exception e) {
@@ -157,7 +157,6 @@ public class UpdateService extends Service {
                 e.printStackTrace();
             }
             Calendar calendar = GregorianCalendar.getInstance();
-            calendar.add(Calendar.MONTH, 1);
             save = new DummyContent.DateSave(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
             try {
                 DummyContent.saveDate(save, this.getApplicationContext());

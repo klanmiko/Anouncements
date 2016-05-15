@@ -143,19 +143,32 @@ public class DummyContent {
     }
 
     public static String getActiveAuthor(int pos) {
+        if(ITEMS.size()>0)
         return ITEMS.get(POINTER.get(pos)).author;
+        else{
+            return null;
+        }
     }
 
     public static String getActiveTitle(int pos) {
-        return ITEMS.get(POINTER.get(pos)).content;
+        if(ITEMS.size()>0)
+            return ITEMS.get(POINTER.get(pos)).content;
+        else
+            return null;
     }
 
     public static String getActiveLink(int pos) {
-        return ITEMS.get(POINTER.get(pos)).link;
+        if(ITEMS.size()>0)
+            return ITEMS.get(POINTER.get(pos)).link;
+        else
+            return null;
     }
 
     public static String getActiveDescription(int pos) {
-        return ITEMS.get(POINTER.get(pos)).description;
+        if(ITEMS.size()>0)
+            return ITEMS.get(POINTER.get(pos)).description;
+        else
+            return null;
     }
 
     public static void setReadActive(boolean truth, int pos) {

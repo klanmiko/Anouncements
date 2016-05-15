@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
+/**ma
  * Created by eternitysst on 11/13/13.
  */
 public class Network {
