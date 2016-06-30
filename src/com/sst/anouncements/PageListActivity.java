@@ -32,102 +32,40 @@ import java.io.File;
 import java.io.IOException;
 
 public class PageListActivity extends FragmentActivity implements
-        PageListFragment.Callbacks, UpdateService.Update, pagerfrag.Callbacks {
-
-    private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-        }
-    };
+        PageListFragment.Callbacks{
     private boolean mTwoPane;
     private boolean wifiConnected = false;
     private boolean mobileConnected = false;
     private boolean first = true;
     private boolean load = true;
     private PageListFragment fragment;
-    private final BroadcastReceiver invalidreceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            loadPage();
-        }
-    };
-    private pagerfrag frag;
-    private UpdateService service;
-    // --Commented out by Inspection (6/15/13 9:03 PM):private UpdateService service;
-    private final ServiceConnection updateservice = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            UpdateService.ActiveBind bind = (UpdateService.ActiveBind) iBinder;
-            service = bind.getUpdateService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
     private int notifpos = -1;
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
-    private pageradapter mPagerAdapter;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, UpdateService.class);
-
-        bindService(intent, updateservice, Context.BIND_AUTO_CREATE);
-    }
-
 
     void refreshPage() {
-        GetXml xml = new GetXml(this);
-
         if (wifiConnected || mobileConnected) {
-            xml
-                    .execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
+            Intent updateIntent = new Intent(this,UpdateIntentService.class);
+            this.startService(updateIntent);
         } else {
             Toast.makeText(this, "Need Internet", Toast.LENGTH_SHORT).show();
-
-
         }
-
-
     }
-
     void loadPage() {
-        try {
-            fragment.showLoad();
-            DummyContent.load(this);
-
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
+        fragment.showLoad();
+        try{
+            DummyContent.load(this.getApplicationContext());
         }
-        refreshPage();
-        fragment.hideLoad();
-        fragment.setCategory("All");
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally {
+            refreshPage();
+            DummyContent.setContent("All");
+        }
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LocalBroadcastManager brm = LocalBroadcastManager.getInstance(this);
-        brm.registerReceiver(updatereceiver, new IntentFilter("com.sst.announcements.UPDATE"));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        LocalBroadcastManager brm = LocalBroadcastManager.getInstance(this);
-        brm.unregisterReceiver(updatereceiver);
-    }
-
     @Override
     public void onRestart() {
         super.onRestart();
@@ -193,20 +131,6 @@ public class PageListActivity extends FragmentActivity implements
                 // Create new fragment from our own Fragment class
                 if (strings[position] != null && fragment != null) {
                     fragment.setCategory(strings[position]);
-                    if (frag != null) {
-
-
-                        Bundle arguments = new Bundle();
-                        arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(position));
-                        arguments.putInt(PageDetailFragment.pos, 0);
-                        frag = new pagerfrag();
-                        frag.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.pagerf, frag).commit();
-                        reg();
-
-
-                    }
                 }
                 return true;
             }
@@ -221,28 +145,19 @@ public class PageListActivity extends FragmentActivity implements
 
 
     }
-
-
-    private void reg() {
-        frag.registerlistener(this);
-    }
-
     @Override
     public void onItemSelected(String id, int position, View view) {
         View title = view.findViewById(R.id.Post);
         View author = view.findViewById(R.id.author);
+        DummyContent.setReadActive(true, position);
+        fragment.notifyupdate();
         if (mTwoPane) {
-            //DummyContent.setReadActive(true, position);
-            //fragment.notifyupdate();
-            if (frag != null) {
-                frag.setPage(position);
-            }
             Bundle arguments = new Bundle();
+
             arguments.putString(PageDetailFragment.ARG_ITEM_ID, id);
             arguments.putString(PageDetailFragment.link, DummyContent.getActiveLink(position));
             arguments.putInt(PageDetailFragment.pos, position);
             PageDetailFragment fragger = new PageDetailFragment();
-
             fragger.setArguments(arguments);
             FragmentTransaction a = getSupportFragmentManager().beginTransaction();
             a.addSharedElement(title, "titletrans");
@@ -251,8 +166,6 @@ public class PageListActivity extends FragmentActivity implements
             a.commit();
         } else {
             Intent detailIntent = new Intent(this, PageDetailActivity.class);
-            DummyContent.setReadActive(true, position);
-            fragment.notifyupdate();
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                     Pair.create(title, "titletrans"),
                     Pair.create(author, "authortrans"));
@@ -261,7 +174,6 @@ public class PageListActivity extends FragmentActivity implements
                     DummyContent.getActiveLink(position));
             detailIntent.putExtra(PageDetailFragment.pos, position);
             startActivity(detailIntent, options.toBundle());
-
         }
     }
 
@@ -294,49 +206,20 @@ public class PageListActivity extends FragmentActivity implements
                 Intent intent1 = new Intent(this, AboutActivity.class);
                 this.startActivity(intent1);
                 return true;
+            case R.id.menu_refresh:
+                refresh();
 
         }
         return false;
 
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbindService(updateservice
-        );
-    }
-
-
     @Override
     public void fragmentlist(PageListFragment frag) {
-        // TODO Auto-generated method stub
         this.fragment = frag;
     }
 
-
-    public void update() {
-        fragment.hideLoad();
-        fragment.notifyupdate();
-        if (frag != null)
-            frag.datasetchange();
-    }
-
-    void preupdate() {
-        fragment.showLoad();
-
-    }
-
-
     @Override
-    public void fragment(pagerfrag frag) {
-        this.frag = frag;
-        reg();
-    }
-
-    @Override
-    public void onItemSelected(int i) {
-        DummyContent.setReadActive(true, i);
-        fragment.notifyupdate();
+    public void refresh() {
+        refreshPage();
     }
 }

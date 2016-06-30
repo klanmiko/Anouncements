@@ -54,10 +54,6 @@ public class DummyContent {
 
             }
         }
-
-        for (Notify notify : adapters) {
-            notify.notifyupdate();
-        }
     }
 
     public static void setContent(String cata) {
@@ -203,9 +199,6 @@ public class DummyContent {
         }
         ITEMS.clear();
         POINTER.clear();
-        for (Notify notify : adapters) {
-            notify.notifyupdate();
-        }
     }
 
     public static DateSave loadDate(Context context) throws IOException, ClassNotFoundException {

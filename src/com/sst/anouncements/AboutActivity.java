@@ -27,9 +27,43 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.about);
         final ImageView image = (ImageView) findViewById(R.id.imageView2);
-        Animation hyperspaceJump = AnimationUtils.loadAnimation(this, R.anim.incog);
-        final TextView swag = (TextView) findViewById(R.id.swag);
+        final ImageView ragulswag = (ImageView) findViewById(R.id.imageView6);
+        final ImageView inclogo = (ImageView) findViewById(R.id.imageView);
+        final ImageView klan = (ImageView) findViewById(R.id.imageView4);
+        final ImageView dieklan = (ImageView) findViewById(R.id.imageView5);
+        final ImageView ragul = (ImageView) findViewById(R.id.imageView3);
 
+        final Animation textanum = AnimationUtils.loadAnimation(this, R.anim.textalpha);
+        final Animation swaganim = AnimationUtils.loadAnimation(this, R.anim.ragul);
+        final Animation hyperspaceJump = AnimationUtils.loadAnimation(this, R.anim.incog);
+        final Animation ratextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
+        final Animation klananim = AnimationUtils.loadAnimation(this, R.anim.ragul);
+        final Animation dieklananim = AnimationUtils.loadAnimation(this, R.anim.ragul);
+        final Animation kltextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
+        final Animation yolotextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
+        final Animation swagtextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
+        final Animation incanum = AnimationUtils.loadAnimation(this, R.anim.incanim);
+        final Animation leaveanim = new TranslateAnimation(0, 0, 0, -3000);
+        final Animation ragulanim = AnimationUtils.loadAnimation(this, R.anim.ragul);
+
+        final ObjectAnimator anim = ObjectAnimator.ofFloat(image, "alpha", 0f, 1f);
+
+        final TextView swag = (TextView) findViewById(R.id.swag);
+        final TextView about = (TextView) findViewById(R.id.abouttext);
+        final TextView ragultext = (TextView) findViewById(R.id.ragul);
+        final TextView yolo = (TextView) findViewById(R.id.yolo);
+        final TextView klantext = (TextView) findViewById(R.id.klan);
+
+        leaveanim.setDuration(2000);
+        leaveanim.setInterpolator(this, android.R.interpolator.accelerate_cubic);
+        klan.setVisibility(View.INVISIBLE);
+        dieklan.setVisibility(View.INVISIBLE);
+        ragul.setVisibility(View.INVISIBLE);
+        ragultext.setVisibility(View.INVISIBLE);
+
+        mpref = getPreferences(Context.MODE_PRIVATE);
+        swagmode = mpref.getBoolean("Swag", false);
+        //sequentially hook animation listeners to the end of previous animations
         Animation.AnimationListener imlist = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -46,13 +80,8 @@ public class AboutActivity extends Activity {
 
             }
         };
-        mpref = getPreferences(Context.MODE_PRIVATE);
-        swagmode = mpref.getBoolean("Swag", false);
-        hyperspaceJump.setAnimationListener(imlist);
-        final Animation textanum = AnimationUtils.loadAnimation(this, R.anim.textalpha);
-        final ImageView ragulswag = (ImageView) findViewById(R.id.imageView6);
-        final Animation swaganim = AnimationUtils.loadAnimation(this, R.anim.ragul);
-        final ObjectAnimator anim = ObjectAnimator.ofFloat(image, "alpha", 0f, 1f);
+
+
         anim.setDuration(1000);
         Animation.AnimationListener endswag = new Animation.AnimationListener() {
             @Override
@@ -75,29 +104,6 @@ public class AboutActivity extends Activity {
             }
         };
         swaganim.setAnimationListener(endswag);
-        final TextView about = (TextView) findViewById(R.id.abouttext);
-        Animation incanum = AnimationUtils.loadAnimation(this, R.anim.incanim);
-        final ImageView inclogo = (ImageView) findViewById(R.id.imageView);
-        final Animation leaveanim = new TranslateAnimation(0, 0, 0, -3000);
-        leaveanim.setDuration(2000);
-        leaveanim.setInterpolator(this, android.R.interpolator.accelerate_cubic);
-        final ImageView klan = (ImageView) findViewById(R.id.imageView4);
-        final ImageView dieklan = (ImageView) findViewById(R.id.imageView5);
-        klan.setVisibility(View.INVISIBLE);
-        dieklan.setVisibility(View.INVISIBLE);
-        final ImageView ragul = (ImageView) findViewById(R.id.imageView3);
-        ragul.setVisibility(View.INVISIBLE);
-        final Animation ragulanim = AnimationUtils.loadAnimation(this, R.anim.ragul);
-        final TextView ragultext = (TextView) findViewById(R.id.ragul);
-        final TextView yolo = (TextView) findViewById(R.id.yolo);
-        final TextView klantext = (TextView) findViewById(R.id.klan);
-        ragultext.setVisibility(View.INVISIBLE);
-        final Animation ratextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
-        final Animation klananim = AnimationUtils.loadAnimation(this, R.anim.ragul);
-        final Animation dieklananim = AnimationUtils.loadAnimation(this, R.anim.ragul);
-        final Animation kltextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
-        final Animation yolotextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
-        final Animation swagtextanum = AnimationUtils.loadAnimation(this, R.anim.titletext);
 
         Animation.AnimationListener enddklan = new Animation.AnimationListener() {
             @Override

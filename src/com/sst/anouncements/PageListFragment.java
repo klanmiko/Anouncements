@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class PageListFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    //empty listener to catch events when unbound
     private static final Callbacks sDummyCallbacks = new Callbacks() {
         @Override
         public void onItemSelected(String id, int position, View view) {
@@ -28,20 +29,23 @@ public class PageListFragment extends ListFragment implements SwipeRefreshLayout
 
         @Override
         public void fragmentlist(PageListFragment frag) {
-            // TODO Auto-generated method stub
+
+        }
+        @Override
+        public void refresh()
+        {
 
         }
 
-
     };
-    // --Commented out by Inspection (6/15/13 9:03 PM):public static final String category = "Category";
-    public String cat = "all";
+    public String cat = "All";
     SwipeRefreshLayout layout;
     private final BroadcastReceiver updatereceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getStringExtra("update").equals("post")) {
                 layout.setRefreshing(false);
+                setCategory(cat);
             } else if (intent.getStringExtra("update").equals("pre")) {
                 layout.setRefreshing(true);
             }
@@ -57,12 +61,7 @@ public class PageListFragment extends ListFragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        if (Network.getNetwork()) {
-            GetXml xml = new GetXml(this.getActivity());
-            xml.execute("http://studentsblog.sst.edu.sg/feeds/posts/default");
-        } else {
-            Toast.makeText(this.getActivity(), "Need Internet", Toast.LENGTH_SHORT).show();
-        }
+        mCallbacks.refresh();
     }
 
     public void registerlistener(Callbacks callback) {
@@ -181,12 +180,9 @@ public class PageListFragment extends ListFragment implements SwipeRefreshLayout
     }
 
     public interface Callbacks {
-
         void onItemSelected(String id, int position, View view);
-
         void fragmentlist(PageListFragment frag);
-
-        //public void onViewCreated();
+        void refresh();
     }
 
 }

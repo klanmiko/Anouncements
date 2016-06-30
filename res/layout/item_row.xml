@@ -3,7 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp">
 
 
     <TextView
@@ -12,14 +14,16 @@
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:transitionName="titletrans" />
+        android:transitionName="titletrans"
+        android:text="hihihihihihihih" />
 
 
     <TextView
         android:id="@+id/Desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="lmao" />
 
     <TextView
         android:id="@+id/author"
@@ -27,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:transitionName="authortrans" />
+        android:transitionName="authortrans"
+        android:text="test" />
 
     <TextView
         android:id="@+id/date"

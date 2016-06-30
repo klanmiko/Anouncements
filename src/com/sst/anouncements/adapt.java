@@ -1,7 +1,10 @@
 package com.sst.anouncements;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,6 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
     private final int layoutResourceId;
     private PageListFragment fragment;
 
-
     public adapt(Context context, int resource, PageListFragment fragment) {
         super(context, resource);
         this.layoutResourceId = resource;
@@ -27,25 +29,12 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View v = convertView;
-
-        // first check to see if the view is null. if so, we have to inflate it.
-        // to inflate it basically means to render, or show, the view.
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.item_row, null);
         }
-
-		/*
-         * Recall that the variable position is sent in as an argument to this
-		 * method. The variable simply refers to the position of the current
-		 * object in the list. (The ArrayAdapter iterates through the list we
-		 * sent it)
-		 * 
-		 * Therefore, i refers to the current Item object.
-		 */
         DummyItem i = DummyContent.getActiveItem(position);
 
         if (i != null) {
@@ -59,8 +48,10 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
                 hold.name.setText(i.content);
                 if (!i.read) {
                     hold.name.setTypeface(null, Typeface.BOLD);
+                    v.setBackgroundColor(Color.WHITE);
                 } else if (i.read) {
                     hold.name.setTypeface(null, Typeface.NORMAL);
+                    v.setBackgroundColor(Color.TRANSPARENT);
                 }
             }
             if (hold.desc != null) {
@@ -95,12 +86,18 @@ public class adapt extends ArrayAdapter<DummyContent.DummyItem> implements Dummy
             public void onItemSelected(String id, int position, View view) {
                 if (positiona == position) {
                     name.setTypeface(null, Typeface.NORMAL);
+                    view.setBackgroundColor(Color.TRANSPARENT);
                     DummyContent.setReadActive(true, position);
                 }
             }
             @Override
             public void fragmentlist(PageListFragment frag) {
                 // TODO Auto-generated method stub
+
+            }
+            @Override
+            public void refresh()
+            {
 
             }
         };

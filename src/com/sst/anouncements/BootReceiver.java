@@ -23,12 +23,11 @@ public class BootReceiver extends BroadcastReceiver {
 
             AlarmManager service = (AlarmManager) context
                     .getSystemService(Context.ALARM_SERVICE);
-            Intent i = new Intent(context, UpdateReceiver.class);
-            PendingIntent pending = PendingIntent.getBroadcast(context, 0, i,
+            Intent i = new Intent(context, UpdateIntentService.class);
+            PendingIntent pending = PendingIntent.getService(context, 0, i,
                     PendingIntent.FLAG_CANCEL_CURRENT);
+            //starts update service 3 mins after boot, then loads frequency from settings file
             Calendar cal = Calendar.getInstance();
-            // Start 30 seconds after boot completed
-
             cal.add(Calendar.MINUTE, 3);
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String syncConnPref = sharedPref.getString("pref_key_refresh", "0");
