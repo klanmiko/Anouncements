@@ -1,3 +1,4 @@
+[![Build Status](https://www.bitrise.io/app/32b37120739efdaa.svg?token=VekIC91s_dhTJfVE1AVcBw&branch=master)](https://www.bitrise.io/app/32b37120739efdaa)
 # Anouncements
 The one and only SST Announcements app
 
